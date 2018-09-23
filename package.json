@@ -4,17 +4,38 @@
   "description": "",
   "main": "dist/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch-node": "nodemon",
+    "watch-ts": "tsc -w",
+    "watch-browser": "watchify dist/front/main.js -o dist/public/js/main.js -v",
+    "watch-admin": "watchify dist/front/admin/main.js -o dist/public/js/admin.js -v",
+    "watch-sass": "node-sass src/public/css/main.scss dist/public/css/main.css -w src/public/css --include-path node_modules/foundation-sites/scss/",
+    "mongo": "cd ~/Developer; mongod --dbpath=mongodb",
+    "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node,Sass,Browser,Admin\" -c \"yellow.bold,cyan.bold,blue.bold,green.bold,red.bold\" \"npm run watch-ts\" \"npm run watch-node\" \"npm run watch-sass\" \"npm run watch-browser\" \"npm run watch-admin\"",
+    "w": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node,Sass,Browser\" -c \"yellow.bold,cyan.bold,blue.bold,green.bold\" \"npm run watch-ts\" \"npm run watch-node\" \"npm run watch-sass\" \"npm run watch-browser\""
   },
   "author": "Julien Breiner",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
     "express": "^4.16.3",
-    "pug": "^2.0.3"
+    "express-flash": "0.0.2",
+    "express-session": "^1.15.6",
+    "pixi.js": "^4.8.2",
+    "pug": "^2.0.3",
+    "uniqid": "^5.0.3",
+    "watchify": "^3.11.0"
   },
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.1",
+    "@types/express": "^4.16.0",
+    "@types/express-flash": "0.0.0",
+    "@types/express-session": "^1.15.11",
+    "@types/pixi.js": "^4.8.1",
+    "@types/uniqid": "^4.1.2",
     "node-sass": "^4.9.3",
-    "nodemon": "^1.18.4",
-    "watchify": "^3.11.0"
+    "nodemon": "^1.18.4"
   }
 }
