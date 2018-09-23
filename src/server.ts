@@ -1,10 +1,10 @@
 import config from './config';
 import app from './app';
-//import socket from "./io";
+import socket from "./io";
 
 let server = require("http").createServer(app);
 
-//socket.init(server);
+socket.init(server);
 
 
 server.listen(config.port, () => {

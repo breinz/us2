@@ -11,7 +11,7 @@ router.get("/game", (req, res) => {
     try {
         state = game.stateFor(req.cookies.user);
     } catch (e) {
-        res.cookie("user", undefined);
+        res.clearCookie("user");
         res.send({ success: false });
     }
 

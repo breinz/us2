@@ -25,6 +25,7 @@
     "express-session": "^1.15.6",
     "pixi.js": "^4.8.2",
     "pug": "^2.0.3",
+    "socket.io": "^2.1.1",
     "uniqid": "^5.0.3",
     "watchify": "^3.11.0"
   },
@@ -34,6 +35,8 @@
     "@types/express-flash": "0.0.0",
     "@types/express-session": "^1.15.11",
     "@types/pixi.js": "^4.8.1",
+    "@types/socket.io": "^1.4.38",
+    "@types/socket.io-client": "^1.4.32",
     "@types/uniqid": "^4.1.2",
     "node-sass": "^4.9.3",
     "nodemon": "^1.18.4"

@@ -36,7 +36,7 @@ app.use("/api", api)
 
 /** Index */
 app.get("/", (req, res) => {
-    if (req.cookies.user && req.cookies.user !== "undefined") {
+    if (req.cookies.user) {
         res.render("index")
     } else {
         res.render("join")

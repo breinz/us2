@@ -1,5 +1,5 @@
 import Game from "./Game";
-import { GameState } from "../types";
+import { State } from "../types";
 
 export default class App {
 
@@ -23,7 +23,7 @@ export default class App {
      * Get the game state for a certain user
      * @param uuid The user's id
      */
-    public stateFor(uuid: string): GameState {
+    public stateFor(uuid: string): State {
         const game = this.findGame(uuid);
         if (!game) {
             throw `User ${uuid} found in no games`;

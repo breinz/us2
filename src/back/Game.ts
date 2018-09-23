@@ -1,13 +1,36 @@
+import * as uniqid from "uniqid"
 import User from "./User";
-import { GameState } from "../types";
+import { State, GameState } from "../types";
 
 export default class Game {
 
-    /** List of players */
+    /**
+     * Game uuid
+     */
+    public uuid: string;
+
+    /** 
+     * List of players 
+     */
     private arUsers: User[];
 
+    /** 
+     * Width of the game 
+     */
+    public width: number;
+
+    /** 
+     * Height of the game 
+     */
+    public height: number;
+
     constructor() {
+        this.uuid = uniqid();
+
         this.arUsers = [];
+
+        this.width = 10000;
+        this.height = 10000;
     }
 
     /**
@@ -16,7 +39,7 @@ export default class Game {
      * @return The uuid of the user who joined
      */
     public join(name: string): string {
-        let user = new User(name);
+        let user = new User(name, this);
         this.arUsers.push(user)
         return user.uuid;
     }
@@ -36,7 +59,7 @@ export default class Game {
      * The game state
      * @param uuid The user's uuid
      */
-    public stateFor(uuid: string): GameState {
+    public stateFor(uuid: string): State {
         let user = this.findUser(uuid);
 
         if (!user) {
@@ -44,7 +67,17 @@ export default class Game {
         }
 
         return {
+            game: this.state,
             user: user.state
+        }
+    }
+
+    /**
+     * This game state
+     */
+    private get state(): GameState {
+        return {
+            uuid: this.uuid
         }
     }
 

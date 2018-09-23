@@ -1,8 +1,15 @@
+export type GameState = {
+    uuid: string
+}
+
 export type UserState = {
     name: string,
-    uuid: string
+    uuid: string,
+    x: number,
+    y: number
 };
 
-export type GameState = {
+export type State = {
+    game: GameState,
     user: UserState
 };
