@@ -2,6 +2,7 @@
  * Socket messages
  */
 export const SOCKET = {
+    INIT_NSP: "socket_initNsp",
     KEY_DOWN: "socket_keyDown",
     KEY_UP: "socket_keyDown"
 }
@@ -10,6 +11,8 @@ export const SOCKET = {
  * Dispatcher events
  */
 export const EVENT = {
+    RESIZE: "resize",
+    KEY_PRESSED: "key_pressed",
     KEY_DOWN: "event_keyDown",
     KEY_UP: "event_keyDown"
 };

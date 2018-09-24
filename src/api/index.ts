@@ -1,5 +1,5 @@
 import * as express from "express";
-import { game } from "../app";
+import { gameServer } from "../app";
 
 let router = express.Router();
 
@@ -9,7 +9,7 @@ let router = express.Router();
 router.get("/game", (req, res) => {
     let state;
     try {
-        state = game.stateFor(req.cookies.user);
+        state = gameServer.stateFor(req.cookies.user);
     } catch (e) {
         res.clearCookie("user");
         res.send({ success: false });

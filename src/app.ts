@@ -10,7 +10,7 @@ import api from "./api"
 const app = express();
 
 // The game
-export const game = new App();
+export const gameServer = new App();
 
 // View engine
 app.set('view engine', 'pug');
@@ -53,7 +53,7 @@ app.post("/join", (req, res) => {
     }
 
     // Tells the game that a new user joins
-    const uuid = game.join(req.body.name);
+    const uuid = gameServer.join(req.body.name);
 
     res.cookie('user', uuid, { maxAge: 1000 * 60 * 60 * 24 * 30, httpOnly: true })
     res.redirect("/")

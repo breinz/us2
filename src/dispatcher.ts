@@ -1,8 +1,5 @@
 class Dispatcher {
 
-    /** Resize the window */
-    public RESIZE = "resize";
-
     /**
      * List of events and associated function
      */

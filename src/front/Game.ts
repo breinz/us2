@@ -7,6 +7,7 @@ import { between, SOCKET, EVENT } from "../helper";
 import * as io from "socket.io-client"
 import { game } from "./main";
 import Keyboard from "../keyboard";
+import User from "./User";
 
 export default class Game {
 
@@ -25,8 +26,15 @@ export default class Game {
      */
     public game_socket: SocketIOClient.Socket;
 
-    /** Keyboard */
+    /** 
+     * Keyboard 
+     */
     public key: Keyboard;
+
+    /** 
+     * The player 
+     */
+    private user: User;
 
     constructor() {
         this.init();
@@ -49,12 +57,22 @@ export default class Game {
 
         // Open a connection to the socket
         this.socket = io();
-        this.socket.emit("cell_connection", data.game.uuid)
-        this.game_socket = io(`http://0.0.0.0:3000/${data.game.uuid}`)
+        this.socket.emit(SOCKET.INIT_NSP, data.game.uuid, () => {
+            this.game_socket = io(`/${data.game.uuid}`);
 
-        this.draw(data);
+            this.game_socket.emit("pom");
+            console.log(this.socket.connected);
+            console.log(this.game_socket.connected);
 
-        this.key = new Keyboard();
+            this.draw(data);
+
+            this.key = new Keyboard();
+
+            // Initialize the user
+            this.user = new User(data.user);
+        });
+
+
     }
 
     /**
@@ -103,6 +121,6 @@ export default class Game {
         this.app.renderer.resize(window.innerWidth, window.innerHeight);
 
         // Dispatch the event
-        dispatcher.dispatch(dispatcher.RESIZE, window.innerWidth, window.innerHeight);
+        dispatcher.dispatch(EVENT["RESIZE"], window.innerWidth, window.innerHeight);
     }
 }

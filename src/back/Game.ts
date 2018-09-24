@@ -1,6 +1,6 @@
 import * as uniqid from "uniqid"
 import User from "./User";
-import { State, GameState } from "../types";
+import { State, GameState, UserState } from "../types";
 
 export default class Game {
 
@@ -68,7 +68,8 @@ export default class Game {
 
         return {
             game: this.state,
-            user: user.state
+            user: user.state,
+            users: this.usersState()
         }
     }
 
@@ -79,6 +80,18 @@ export default class Game {
         return {
             uuid: this.uuid
         }
+    }
+
+    /**
+     * State of all users
+     */
+    private usersState(): UserState[] {
+        let user: User;
+        let state: UserState[] = [];
+        for (let i = 0; i < this.arUsers.length; i++) {
+            state.push(this.arUsers[i].state);
+        }
+        return state;
     }
 
     /**

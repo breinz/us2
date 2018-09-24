@@ -1,6 +1,7 @@
 import { game } from "./main";
 import dispatcher from "../dispatcher";
 import Star from "./background/Stars";
+import { EVENT } from "../helper";
 
 export default class Background {
 
@@ -34,7 +35,7 @@ export default class Background {
         this.arStars = [];
         this.drawStars();
 
-        dispatcher.on(dispatcher.RESIZE, (w: number, h: number) => this.onResize(w, h));
+        dispatcher.on(EVENT["RESIZE"], (w: number, h: number) => this.onResize(w, h));
 
         game.app.ticker.add(() => this.onTick());
     }

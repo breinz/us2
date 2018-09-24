@@ -57,4 +57,12 @@ export default class App {
         return this.arGames[0]
     }
 
+    /**
+     * A key is pressed
+     * @param key The key code
+     */
+    public onKeyDown(key: any) {
+        console.log("onKeyDown", key);
+    }
+
 }

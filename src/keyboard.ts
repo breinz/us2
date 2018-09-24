@@ -1,5 +1,6 @@
 import dispatcher from "./dispatcher";
-import { EVENT } from "./helper";
+import { EVENT, SOCKET } from "./helper";
+import { game } from "./front/main";
 
 export default class Keyboard {
 
@@ -37,7 +38,9 @@ export default class Keyboard {
      */
     private onKeyDown(event: KeyboardEvent) {
         if (event.keyCode === 37 || event.keyCode === 81 || event.keyCode === 65) this.left = true;
-        if (event.keyCode === 38 || event.keyCode === 90 || event.keyCode === 87) this.up = true;
+        if (event.keyCode === 38 || event.keyCode === 90 || event.keyCode === 87) {
+            this.up = true;
+        }
         if (event.keyCode === 39 || event.keyCode === 68) this.right = true;
         if (event.keyCode === 40 || event.keyCode === 83) this.down = true;
 
@@ -45,7 +48,11 @@ export default class Keyboard {
             if (this.arPressed[i] === event.keyCode) return;
         }
         this.arPressed.push(event.keyCode);
+
+        game.game_socket.emit(SOCKET.KEY_DOWN, event.keyCode);
+
         dispatcher.dispatch(EVENT["KEY_DOWN"]);
+        dispatcher.dispatch(EVENT.KEY_PRESSED, event.keyCode)
     }
 
     /**
