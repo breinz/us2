@@ -36,9 +36,8 @@ export default class Keyboard {
      * @param event The keyboard event
      */
     private onKeyDown(event: KeyboardEvent) {
-        console.log(event.keyCode);
-        if (event.keyCode === 37 || event.keyCode === 81) this.left = true;
-        if (event.keyCode === 38 || event.keyCode === 90) this.up = true;
+        if (event.keyCode === 37 || event.keyCode === 81 || event.keyCode === 65) this.left = true;
+        if (event.keyCode === 38 || event.keyCode === 90 || event.keyCode === 87) this.up = true;
         if (event.keyCode === 39 || event.keyCode === 68) this.right = true;
         if (event.keyCode === 40 || event.keyCode === 83) this.down = true;
 
@@ -54,8 +53,8 @@ export default class Keyboard {
      * @param event The keyboard event
      */
     private onKeyUp(event: KeyboardEvent) {
-        if (event.keyCode === 37 || event.keyCode === 81) this.left = false;
-        if (event.keyCode === 38 || event.keyCode === 90) this.up = false;
+        if (event.keyCode === 37 || event.keyCode === 81 || event.keyCode === 65) this.left = false;
+        if (event.keyCode === 38 || event.keyCode === 90 || event.keyCode === 87) this.up = false;
         if (event.keyCode === 39 || event.keyCode === 68) this.right = false;
         if (event.keyCode === 40 || event.keyCode === 83) this.down = false;
 
