@@ -1,8 +1,18 @@
-import dispatcher from "./dispatcher";
-import { EVENT, SOCKET } from "./helper";
-import { game } from "./front/main";
+import dispatcher from "../dispatcher";
+import { EVENT, SOCKET } from "../helper";
+import { game } from "./main";
 
 export default class Keyboard {
+
+    /**
+     * The user's id
+     */
+    private user_id: string;
+
+    /**
+     * The game's id
+     */
+    private game_id: string;
 
     /**
      * Key pressed
@@ -14,11 +24,14 @@ export default class Keyboard {
     public up: boolean = false;
     public down: boolean = false;
 
-    constructor() {
+    constructor(game_id: string, user_id: string) {
+        this.user_id = user_id;
+        this.game_id = game_id;
+
         this.arPressed = [];
 
-        window.addEventListener("keydown", (event) => this.onKeyDown(event))
-        window.addEventListener("keyup", (event) => this.onKeyUp(event))
+        window.addEventListener("keydown", this.onKeyDown)
+        window.addEventListener("keyup", this.onKeyUp)
     }
 
     /**
@@ -36,7 +49,7 @@ export default class Keyboard {
      * Key down
      * @param event The keyboard event
      */
-    private onKeyDown(event: KeyboardEvent) {
+    private onKeyDown = (event: KeyboardEvent) => {
         if (event.keyCode === 37 || event.keyCode === 81 || event.keyCode === 65) this.left = true;
         if (event.keyCode === 38 || event.keyCode === 90 || event.keyCode === 87) {
             this.up = true;
@@ -49,7 +62,7 @@ export default class Keyboard {
         }
         this.arPressed.push(event.keyCode);
 
-        game.game_socket.emit(SOCKET.KEY_DOWN, event.keyCode);
+        game.game_socket.emit(SOCKET.KEY_DOWN, this.game_id, this.user_id, event.keyCode);
 
         dispatcher.dispatch(EVENT["KEY_DOWN"]);
         dispatcher.dispatch(EVENT.KEY_PRESSED, event.keyCode)
@@ -59,7 +72,7 @@ export default class Keyboard {
      * Key up
      * @param event The keyboard event
      */
-    private onKeyUp(event: KeyboardEvent) {
+    private onKeyUp = (event: KeyboardEvent) => {
         if (event.keyCode === 37 || event.keyCode === 81 || event.keyCode === 65) this.left = false;
         if (event.keyCode === 38 || event.keyCode === 90 || event.keyCode === 87) this.up = false;
         if (event.keyCode === 39 || event.keyCode === 68) this.right = false;
@@ -71,6 +84,9 @@ export default class Keyboard {
                 break;
             }
         }
+
+        game.game_socket.emit(SOCKET.KEY_UP, this.game_id, this.user_id, event.keyCode);
+
         dispatcher.dispatch(EVENT["KEY_UP"]);
     }
 

@@ -1,8 +1,10 @@
 import * as uniqid from "uniqid"
-import User from "./User";
+import SUser from "./SUser";
 import { State, GameState, UserState } from "../types";
+import Keyboard from "../front/keyboard";
+import { keyboard } from "../helper";
 
-export default class Game {
+export default class SGame {
 
     /**
      * Game uuid
@@ -12,7 +14,7 @@ export default class Game {
     /** 
      * List of players 
      */
-    private arUsers: User[];
+    private arUsers: SUser[];
 
     /** 
      * Width of the game 
@@ -34,12 +36,21 @@ export default class Game {
     }
 
     /**
+     * Ticker
+     */
+    public tick() {
+        for (let i = 0; i < this.arUsers.length; i++) {
+            this.arUsers[i].tick();
+        }
+    }
+
+    /**
      * A new user joins the game
      * @param name The user's name
      * @return The uuid of the user who joined
      */
     public join(name: string): string {
-        let user = new User(name, this);
+        let user = new SUser(name, this);
         this.arUsers.push(user)
         return user.uuid;
     }
@@ -86,7 +97,7 @@ export default class Game {
      * State of all users
      */
     private usersState(): UserState[] {
-        let user: User;
+        let user: SUser;
         let state: UserState[] = [];
         for (let i = 0; i < this.arUsers.length; i++) {
             state.push(this.arUsers[i].state);
@@ -98,10 +109,40 @@ export default class Game {
      * Find a user in that game
      * @param uuid The user's uuid
      */
-    private findUser(uuid: string): User {
+    private findUser(uuid: string): SUser {
         for (let i = 0; i < this.arUsers.length; i++) {
             if (this.arUsers[i].uuid === uuid) return this.arUsers[i];
         }
         return null;
+    }
+
+    /**
+     * Key down
+     * @param uid The user's id
+     * @param key The key code
+     */
+    public onKeyDown(uid: string, key: number) {
+        if (keyboard.isMove(key)) {
+            for (let i = 0; i < this.arUsers.length; i++) {
+                if (this.arUsers[i].uuid === uid) {
+                    this.arUsers[i].onMove(key, true);
+                }
+            }
+        }
+    }
+
+    /**
+     * Key up
+     * @param uid The user's id
+     * @param key The key code
+     */
+    public onKeyUp(uid: string, key: number) {
+        if (keyboard.isMove(key)) {
+            for (let i = 0; i < this.arUsers.length; i++) {
+                if (this.arUsers[i].uuid === uid) {
+                    this.arUsers[i].onMove(key, false);
+                }
+            }
+        }
     }
 }

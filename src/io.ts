@@ -1,7 +1,8 @@
 import { Server, Socket } from "socket.io";
 import { Http2Server } from "http2";
-import { SOCKET } from "./helper";
+import { SOCKET, EVENT } from "./helper";
 import { gameServer } from "./app";
+import dispatcher from "./dispatcher";
 //import message from "./SocketMessages"
 //import { Us } from "./us";
 
@@ -32,7 +33,9 @@ class Io {
             socket.on("disconnect", (reason) => {
                 //console.log("client disconnect", reason);
             })
-        })
+        });
+
+        dispatcher.on(EVENT.STATE_UPDATE, this.onStateUpdate);
     }
 
     /**
@@ -56,15 +59,27 @@ class Io {
 
             const socket = this.io.of(`/${game_id}`);
 
-            gameSocket.on(SOCKET.KEY_DOWN, (key: number) => {
-                gameServer.onKeyDown(key);
-            })
+            gameSocket.on(SOCKET.KEY_DOWN, (gid: string, uid: string, key: number) => {
+                gameServer.onKeyDown(gid, uid, key);
+            });
+
+            gameSocket.on(SOCKET.KEY_UP, (gid: string, uid: string, key: number) => {
+                gameServer.onKeyUp(gid, uid, key);
+            });
 
         });
 
         this.games.push(game_id);
 
         ack();
+    }
+
+    /**
+     * A game state changed and need to be passed to all clients
+     * @param gid The game id
+     */
+    private onStateUpdate(gid: string) {
+        this.io.of(`/${gid}`).emit(SOCKET.STATE_UPDATE, gameServer.gameState(gid));
     }
 }
 export default new Io()

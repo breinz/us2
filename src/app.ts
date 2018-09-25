@@ -3,14 +3,14 @@ import * as path from "path";
 import * as cookieParser from "cookie-parser";
 import * as bodyParser from "body-parser";
 import * as session from "express-session"
-import App from "./back/App";
+import SApp from "./back/SApp";
 let flash = require("express-flash")
 import api from "./api"
 
 const app = express();
 
 // The game
-export const gameServer = new App();
+export const gameServer = new SApp();
 
 // View engine
 app.set('view engine', 'pug');

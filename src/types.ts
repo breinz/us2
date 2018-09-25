@@ -6,7 +6,9 @@ export type UserState = {
     name: string,
     uuid: string,
     x: number,
-    y: number
+    y: number,
+    vx: number,
+    vy: number
 };
 
 export type State = {

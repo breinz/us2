@@ -6,7 +6,7 @@ import dispatcher from "../dispatcher";
 import { between, SOCKET, EVENT } from "../helper";
 import * as io from "socket.io-client"
 import { game } from "./main";
-import Keyboard from "../keyboard";
+import Keyboard from "./keyboard";
 import User from "./User";
 
 export default class Game {
@@ -60,13 +60,10 @@ export default class Game {
         this.socket.emit(SOCKET.INIT_NSP, data.game.uuid, () => {
             this.game_socket = io(`/${data.game.uuid}`);
 
-            this.game_socket.emit("pom");
-            console.log(this.socket.connected);
-            console.log(this.game_socket.connected);
 
             this.draw(data);
 
-            this.key = new Keyboard();
+            this.key = new Keyboard(data.game.uuid, data.user.uuid);
 
             // Initialize the user
             this.user = new User(data.user);
