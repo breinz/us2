@@ -3,6 +3,7 @@ import SUser from "./SUser";
 import { State, GameState, UserState } from "../types";
 import Keyboard from "../front/keyboard";
 import { keyboard } from "../helper";
+import io from "../io";
 
 export default class SGame {
 
@@ -33,6 +34,8 @@ export default class SGame {
 
         this.width = 10000;
         this.height = 10000;
+
+        io.createGameServer(this.uuid);
     }
 
     /**
@@ -67,6 +70,16 @@ export default class SGame {
     }
 
     /**
+     * 
+     * @param uid The user's id
+     */
+    public initStateFor(uid: string) {
+        return {
+
+        }
+    }
+
+    /**
      * The game state
      * @param uuid The user's uuid
      */
@@ -79,7 +92,15 @@ export default class SGame {
 
         return {
             game: this.state,
-            user: user.state,
+            //user: user.state,
+            users: this.usersState()
+        }
+    }
+
+    public getState(): State {
+        return {
+            game: this.state,
+            //user: user.state,
             users: this.usersState()
         }
     }

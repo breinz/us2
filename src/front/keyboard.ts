@@ -62,7 +62,7 @@ export default class Keyboard {
         }
         this.arPressed.push(event.keyCode);
 
-        game.game_socket.emit(SOCKET.KEY_DOWN, this.game_id, this.user_id, event.keyCode);
+        game.socket.emit(SOCKET.KEY_DOWN, this.game_id, this.user_id, event.keyCode);
 
         dispatcher.dispatch(EVENT["KEY_DOWN"]);
         dispatcher.dispatch(EVENT.KEY_PRESSED, event.keyCode)
@@ -85,7 +85,7 @@ export default class Keyboard {
             }
         }
 
-        game.game_socket.emit(SOCKET.KEY_UP, this.game_id, this.user_id, event.keyCode);
+        game.socket.emit(SOCKET.KEY_UP, this.game_id, this.user_id, event.keyCode);
 
         dispatcher.dispatch(EVENT["KEY_UP"]);
     }

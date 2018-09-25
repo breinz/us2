@@ -5,6 +5,7 @@ export const SOCKET = {
     INIT_NSP: "socket_initNsp",
     KEY_DOWN: "socket_keyDown",
     KEY_UP: "socket_keyUp",
+    GET_STATE: "socket_getState",
     STATE_UPDATE: "socket_stateUpdate"
 }
 

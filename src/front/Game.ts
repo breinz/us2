@@ -12,6 +12,11 @@ import User from "./User";
 export default class Game {
 
     /**
+     * The game id
+     */
+    public id: string;
+
+    /**
      * The PIXI app
      */
     public app: PIXI.Application;
@@ -19,12 +24,12 @@ export default class Game {
     /**
      * Main socket
      */
-    private socket: SocketIOClient.Socket;
+    public socket: SocketIOClient.Socket;
 
     /**
      * Game socket
      */
-    public game_socket: SocketIOClient.Socket;
+    //public game_socket: SocketIOClient.Socket;
 
     /** 
      * Keyboard 
@@ -36,41 +41,67 @@ export default class Game {
      */
     private user: User;
 
-    constructor() {
-        this.init();
+    constructor(gid: string, uid: string) {
+        this.id = gid;
+
+        // Create the user
+        this.user = new User(uid);
+
+        this.key = new Keyboard(gid, uid);
+
+        // Connect to the socket
+        this.socket = io(`/${this.id}`);
+
+        // Listen to the state coming from the server
+        this.socket.on(SOCKET.STATE_UPDATE, this.onStateUpdate)
+
+        // Get the game state
+        this.socket.emit(SOCKET.GET_STATE, this.id);
+
+    }
+
+    /**
+     * Receive a game state
+     */
+    private onStateUpdate = (state: State) => {
+        this.user.onStateUpdate(state);
     }
 
     /**
      * Initialize the game with data from the server
      */
-    private async init() {
-        const res = await Axios.get("/api/game");
+    /*private async init() {
+        const res = await Axios.get("/api/gameId");
 
         // Something went wrong (the cookie has been deleted) refresh to go back to login page
         if (res.data.success === false) {
             return window.location.reload();
         }
 
-        const data: State = res.data;
+        this.id = res.data.gid;
 
-        console.log(data);
+        // Initialize the user
+        this.user = new User(data.user);
+
+        //const data: State = res.data;
+
+        //console.log(data);
 
         // Open a connection to the socket
         this.socket = io();
-        this.socket.emit(SOCKET.INIT_NSP, data.game.uuid, () => {
-            this.game_socket = io(`/${data.game.uuid}`);
+        this.socket.emit(SOCKET.INIT_NSP, this.id, () => {
+            this.game_socket = io(`/${this.id}`);
 
 
             this.draw(data);
 
             this.key = new Keyboard(data.game.uuid, data.user.uuid);
 
-            // Initialize the user
-            this.user = new User(data.user);
+
         });
 
 
-    }
+    }*/
 
     /**
      * Draw the game

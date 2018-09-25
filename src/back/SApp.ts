@@ -22,6 +22,16 @@ export default class SApp {
     }
 
     /**
+     * Get the game id for a given player
+     * @param uid user id
+     */
+    public gameIdFor(uid: string): string {
+        let game: SGame = this.findGame(uid);
+        if (!game) return null;
+        return game.uuid;
+    }
+
+    /**
      * Get the game state for a certain user
      * @param uuid The user's id
      */
@@ -37,8 +47,13 @@ export default class SApp {
      * The state of a game
      * @param gid Game id
      */
-    public gameState(gid: string) {
-
+    public gameState(gid: string): State {
+        for (let i = 0; i < this.arGames.length; i++) {
+            if (this.arGames[i].uuid === gid) {
+                return this.arGames[i].getState();
+            }
+        }
+        return null;
     }
 
     /**

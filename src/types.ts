@@ -13,6 +13,6 @@ export type UserState = {
 
 export type State = {
     game: GameState,
-    user: UserState,
+    //user: UserState,
     users: UserState[]
 };

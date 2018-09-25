@@ -25,7 +25,7 @@ class Io {
 
         this.io = require("socket.io")(server)
 
-        this.io.on("connection", (socket: Socket) => {
+        /*this.io.on("connection", (socket: Socket) => {
 
             // Initialize a namespace
             socket.on(SOCKET.INIT_NSP, this.initNsp);
@@ -35,7 +35,17 @@ class Io {
             })
         });
 
-        dispatcher.on(EVENT.STATE_UPDATE, this.onStateUpdate);
+        dispatcher.on(EVENT.STATE_UPDATE, this.onStateUpdate);*/
+    }
+
+    public createGameServer(gid: string) {
+        this.io.of(`/${gid}`).on("connection", (socket) => {
+
+            // A client ask for a state
+            socket.on(SOCKET.GET_STATE, (gid) => {
+                socket.emit(SOCKET.STATE_UPDATE, gameServer.gameState(gid))
+            })
+        })
     }
 
     /**
