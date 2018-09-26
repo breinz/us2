@@ -13,7 +13,7 @@ export default class Users {
     /**
      * List of users
      */
-    private arUsers: { [id: string]: User };//User[];
+    private arUsers: User[];//{ [id: string]: User };//User[];
 
     /**
      * Internal use only
@@ -23,7 +23,7 @@ export default class Users {
 
     constructor(uid: string) {
         this.uid = uid;
-        this.arUsers = {};
+        this.arUsers = [];
 
         dispatcher.on(EVENT.DESTROY_USER, this.onDestroyUser);
     }
@@ -33,27 +33,37 @@ export default class Users {
      * @param state The game state
      */
     public update(state: State) {
-        // Run onBeforeUpdate on every User
+        // Run onBeforeUpdate
         this.onBeforeUpdate();
 
         let s: UserState, u: User;
-        for (let i = 0; i < state.users.length; i++) {
-            s = state.users[i];
-            u = this.arUsers[s.uuid];
-            if (u) {
-                u.update(s);
-            } else {
-                const newUser = new User(s);
-                this.arUsers[s.uuid] = newUser
+        nextState: for (let i = 0; i < state.users.length; i++) {
 
-                // If that user is me, save it
-                if (s.uuid === this.uid) {
-                    this.me = newUser;
+            s = state.users[i];
+
+            // Check if that user exists
+            for (let j = 0; j < this.arUsers.length; j++) {
+                if (this.arUsers[j].id === s.uuid) {
+                    console.log("update user", s.uuid);
+                    this.arUsers[j].update(s);
+                    continue nextState;
                 }
+
+            }
+
+            /** @todo Check if the user is definitely too far and avoid creating it to delete it strait after */
+
+            // The user doesn't exist yet, create it
+            const newUser = new User(s);
+            this.arUsers.push(newUser);
+
+            // If that user is me, save it
+            if (s.uuid === this.uid) {
+                this.me = newUser;
             }
         }
 
-        // Run onAfterUpdate on every User
+        // Run onAfterUpdate
         this.onAfterUpdate();
     }
 
@@ -61,6 +71,7 @@ export default class Users {
      * Before update
      */
     private onBeforeUpdate() {
+        // Run onBeforeUpdate on every user
         for (const id in this.arUsers) {
             if (this.arUsers.hasOwnProperty(id)) {
                 this.arUsers[id].onBeforeUpdate();
@@ -72,6 +83,7 @@ export default class Users {
      * After update
      */
     private onAfterUpdate() {
+        // Run onAfterUpdate on every user
         for (const id in this.arUsers) {
             if (this.arUsers.hasOwnProperty(id)) {
                 this.arUsers[id].onAfterUpdate();
@@ -80,9 +92,16 @@ export default class Users {
     }
 
     /**
-     * A user will be destroyed, remove it from the list
+     * A user will be destroyed
      */
     private onDestroyUser = (user: User) => {
-        delete this.arUsers[user.id];
+
+        // Remove it from the list
+        for (let i = 0; i < this.arUsers.length; i++) {
+            if (this.arUsers[i] === user) {
+                this.arUsers.splice(i, 1);
+                break;
+            }
+        }
     }
 }

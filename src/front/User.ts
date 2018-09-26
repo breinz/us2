@@ -59,6 +59,8 @@ export default class User extends PIXI.Container {
         }
 
         /** @todo Check if the user is too far from me => destroy */
+
+
     }
 
     /**
