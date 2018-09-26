@@ -71,7 +71,7 @@ export default class User extends PIXI.Container implements IDisplayable {
         let s = new PIXI.Graphics();
         s.beginFill(0xFFFF00);
         s.drawCircle(0, 0, 10);
-        this.addChild(s)
+        this.addChild(s);
 
         game.app.stage.addChild(this);
 
