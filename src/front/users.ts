@@ -44,7 +44,6 @@ export default class Users {
             // Check if that user exists
             for (let j = 0; j < this.arUsers.length; j++) {
                 if (this.arUsers[j].id === s.uuid) {
-                    console.log("update user", s.uuid);
                     this.arUsers[j].update(s);
                     continue nextState;
                 }
@@ -72,11 +71,9 @@ export default class Users {
      */
     private onBeforeUpdate() {
         // Run onBeforeUpdate on every user
-        for (const id in this.arUsers) {
-            if (this.arUsers.hasOwnProperty(id)) {
-                this.arUsers[id].onBeforeUpdate();
-            }
-        }
+        this.arUsers.map((user) => {
+            user.onBeforeUpdate();
+        });
     }
 
     /**
@@ -84,11 +81,9 @@ export default class Users {
      */
     private onAfterUpdate() {
         // Run onAfterUpdate on every user
-        for (const id in this.arUsers) {
-            if (this.arUsers.hasOwnProperty(id)) {
-                this.arUsers[id].onAfterUpdate();
-            }
-        }
+        this.arUsers.map((user) => {
+            user.onAfterUpdate();
+        });
     }
 
     /**
