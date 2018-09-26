@@ -32,8 +32,8 @@ export default class SGame {
 
         this.arUsers = [];
 
-        this.width = 10000;
-        this.height = 10000;
+        this.width = 300;//10000;
+        this.height = 300;//10000;
 
         io.createGameServer(this.uuid);
     }

@@ -9,6 +9,7 @@ import { game } from "./main";
 import Keyboard from "./keyboard";
 import User from "./User";
 import Users from "./users";
+import IDisplayable from "./IDisplayable";
 
 export default class Game {
 
@@ -45,10 +46,12 @@ export default class Game {
     /**
      * List of users
      */
-    private users: Users;
+    public users: Users;
 
     constructor(gid: string, uid: string) {
         this.id = gid;
+
+        this.initPixi();
 
         /** Initialize the users list */
         this.users = new Users(uid);
@@ -66,6 +69,39 @@ export default class Game {
 
         // Ask for the game state
         this.socket.emit(SOCKET.GET_STATE, this.id);
+    }
+
+    public pos(obj: IDisplayable): { x: number, y: number } {
+        return {
+            x: window.innerWidth / 2 + obj.state.x - this.users.me.state.x,
+            y: window.innerHeight / 2 + obj.state.y - this.users.me.state.y
+        }
+    }
+
+    /**
+     * Initialize PIXI
+     */
+    private initPixi() {
+        PIXI.utils.skipHello();
+
+        // Create the app
+        this.app = new PIXI.Application({
+            width: window.innerWidth,
+            height: window.innerHeight,
+            transparent: true,
+            antialias: true
+        })
+
+        // Remove right click
+        this.app.view.addEventListener("contextmenu", (e) => {
+            e.preventDefault();
+        })
+
+        // Add to screen
+        document.getElementById("game").appendChild(this.app.view)
+
+        // Make it interactive
+        this.app.stage.interactive = true;
     }
 
     /**
@@ -120,27 +156,6 @@ export default class Game {
      * Draw the game
      */
     private draw(data: State) {
-
-        PIXI.utils.skipHello();
-
-        // Create the app
-        this.app = new PIXI.Application({
-            width: window.innerWidth,
-            height: window.innerHeight,
-            transparent: true,
-            antialias: true
-        })
-
-        // Remove right click
-        this.app.view.addEventListener("contextmenu", (e) => {
-            e.preventDefault();
-        })
-
-        // Add to screen
-        document.getElementById("game").appendChild(this.app.view)
-
-        // Make it interactive
-        this.app.stage.interactive = true;
 
         // Listen to window resize
         window.addEventListener("resize", () => this.onResizeWindow())

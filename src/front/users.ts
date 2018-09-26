@@ -23,6 +23,7 @@ export default class Users {
 
     constructor(uid: string) {
         this.uid = uid;
+
         this.arUsers = [];
 
         dispatcher.on(EVENT.DESTROY_USER, this.onDestroyUser);
@@ -44,7 +45,7 @@ export default class Users {
             // Check if that user exists
             for (let j = 0; j < this.arUsers.length; j++) {
                 if (this.arUsers[j].id === s.uuid) {
-                    this.arUsers[j].update(s);
+                    this.arUsers[j].updateState(s);
                     continue nextState;
                 }
 
@@ -71,9 +72,10 @@ export default class Users {
      */
     private onBeforeUpdate() {
         // Run onBeforeUpdate on every user
-        this.arUsers.map((user) => {
-            user.onBeforeUpdate();
-        });
+        for (let i = 0; i < this.arUsers.length; i++) {
+            this.arUsers[i].onBeforeUpdate();
+
+        }
     }
 
     /**

@@ -2,8 +2,9 @@ import { UserState, State } from "../types";
 import { game } from "./main";
 import dispatcher from "../dispatcher";
 import { EVENT } from "../helper";
+import IDisplayable from "./IDisplayable";
 
-export default class User extends PIXI.Container {
+export default class User extends PIXI.Container implements IDisplayable {
 
     /**
      * User id
@@ -11,14 +12,9 @@ export default class User extends PIXI.Container {
     public id: string;
 
     /**
-     * The user's data
+     * The state
      */
-    private data: UserState;
-
-    /**
-     * The position
-     */
-    private state: UserState;
+    public state: UserState;
 
     /**
      * Has the user been updated. Aka does it still exist on the server
@@ -28,17 +24,7 @@ export default class User extends PIXI.Container {
     constructor(state: UserState) {
         super();
 
-        console.log("createUser", state.uuid);
-
-        this.id = state.uuid;
-
-        //this.data = data;
-
-        //this.id = id;
-
-        /*this.draw();
-
-        dispatcher.on(EVENT["RESIZE"], () => this.onResize());*/
+        this.updateState(state);
     }
 
     /**
@@ -58,6 +44,9 @@ export default class User extends PIXI.Container {
             return;
         }
 
+        // Draw the user
+        this.draw();
+
         /** @todo Check if the user is too far from me => destroy */
 
 
@@ -67,21 +56,12 @@ export default class User extends PIXI.Container {
      * Update the user with the latest state
      * @param state The user state
      */
-    public update(state: UserState) {
-        this.updated = true;
-    }
+    public updateState(state: UserState) {
+        this.id = state.uuid;
 
-    /**
-     * Got a state from the server
-     * @param state The state
-     */
-    public onStateUpdate(state: State) {
-        for (let i = 0; i < state.users.length; i++) {
-            if (state.users[i].uuid === this.id) {
-                this.state = state.users[i];
-                return;
-            }
-        }
+        this.state = state;
+
+        this.updated = true;
     }
 
     /**
@@ -95,17 +75,24 @@ export default class User extends PIXI.Container {
 
         game.app.stage.addChild(this);
 
-        this.onResize();
+        if (this === game.users.me) {
+            this.x = window.innerWidth / 2;
+            this.y = window.innerHeight / 2;
+        } else {
+            const pos = game.pos(this);
+            this.x = pos.x;
+            this.y = pos.y;
+        }
 
     }
 
     /**
      * Window resize
      */
-    private onResize() {
+    /*private onResize() {
         this.x = window.innerWidth / 2;
         this.y = window.innerHeight / 2;
-    }
+    }*/
 
     /**
      * Destroys this user
