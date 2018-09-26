@@ -20,16 +20,51 @@ export default class User extends PIXI.Container {
      */
     private state: UserState;
 
-    constructor(id: string) {
+    /**
+     * Has the user been updated. Aka does it still exist on the server
+     */
+    private updated: boolean;
+
+    constructor(state: UserState) {
         super();
+
+        console.log("createUser", state.uuid);
 
         //this.data = data;
 
-        this.id = id;
+        //this.id = id;
 
         /*this.draw();
 
         dispatcher.on(EVENT["RESIZE"], () => this.onResize());*/
+    }
+
+    /**
+     * Before update
+     */
+    public onBeforeUpdate() {
+        this.updated = false;
+    }
+
+    /**
+     * After update
+     */
+    public onAfterUpdate() {
+        // The user does not exist anymore on the server (disconnect)
+        if (!this.updated) {
+            this.destroy();
+            return;
+        }
+
+        /** @todo Check if the user is too far from me => destroy */
+    }
+
+    /**
+     * Update the user with the latest state
+     * @param state The user state
+     */
+    public update(state: UserState) {
+        this.updated = true;
     }
 
     /**
@@ -66,5 +101,12 @@ export default class User extends PIXI.Container {
     private onResize() {
         this.x = window.innerWidth / 2;
         this.y = window.innerHeight / 2;
+    }
+
+    /**
+     * Destroys this user
+     */
+    public destroy() {
+        super.destroy();
     }
 }

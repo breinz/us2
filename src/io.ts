@@ -41,9 +41,11 @@ class Io {
     public createGameServer(gid: string) {
         this.io.of(`/${gid}`).on("connection", (socket) => {
 
+            const gameSocket = this.io.of(`/${gid}`);
+
             // A client ask for a state
             socket.on(SOCKET.GET_STATE, (gid) => {
-                socket.emit(SOCKET.STATE_UPDATE, gameServer.gameState(gid))
+                gameSocket.emit(SOCKET.STATE_UPDATE, gameServer.gameState(gid))
             })
         })
     }

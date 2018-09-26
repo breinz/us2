@@ -8,6 +8,7 @@ import * as io from "socket.io-client"
 import { game } from "./main";
 import Keyboard from "./keyboard";
 import User from "./User";
+import Users from "./users";
 
 export default class Game {
 
@@ -41,11 +42,19 @@ export default class Game {
      */
     private user: User;
 
+    /**
+     * List of users
+     */
+    private users: Users;
+
     constructor(gid: string, uid: string) {
         this.id = gid;
 
+        /** Initialize the users list */
+        this.users = new Users(uid);
+
         // Create the user
-        this.user = new User(uid);
+        //this.user = new User(uid);
 
         this.key = new Keyboard(gid, uid);
 
@@ -55,16 +64,20 @@ export default class Game {
         // Listen to the state coming from the server
         this.socket.on(SOCKET.STATE_UPDATE, this.onStateUpdate)
 
-        // Get the game state
+        // Ask for the game state
         this.socket.emit(SOCKET.GET_STATE, this.id);
-
     }
 
     /**
      * Receive a game state
      */
     private onStateUpdate = (state: State) => {
-        this.user.onStateUpdate(state);
+        console.log(state);
+
+        // Update the uses
+        this.users.update(state);
+
+        //this.user.onStateUpdate(state);
     }
 
     /**
