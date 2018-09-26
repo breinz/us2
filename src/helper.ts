@@ -17,7 +17,8 @@ export const EVENT = {
     KEY_PRESSED: "key_pressed",
     KEY_DOWN: "event_keyDown",
     KEY_UP: "event_keyDown",
-    STATE_UPDATE: "event_stateUpdate"
+    STATE_UPDATE: "event_stateUpdate",
+    DESTROY_USER: "event_destroyUser"
 };
 
 /** 

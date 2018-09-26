@@ -1,5 +1,7 @@
 import User from "./User";
 import { State, UserState } from "../types";
+import dispatcher from "../dispatcher";
+import { EVENT } from "../helper";
 
 export default class Users {
 
@@ -22,6 +24,8 @@ export default class Users {
     constructor(uid: string) {
         this.uid = uid;
         this.arUsers = {};
+
+        dispatcher.on(EVENT.DESTROY_USER, this.onDestroyUser);
     }
 
     /**
@@ -73,5 +77,12 @@ export default class Users {
                 this.arUsers[id].onAfterUpdate();
             }
         }
+    }
+
+    /**
+     * A user will be destroyed, remove it from the list
+     */
+    private onDestroyUser = (user: User) => {
+        delete this.arUsers[user.id];
     }
 }

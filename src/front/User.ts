@@ -8,7 +8,7 @@ export default class User extends PIXI.Container {
     /**
      * User id
      */
-    private id: string;
+    public id: string;
 
     /**
      * The user's data
@@ -29,6 +29,8 @@ export default class User extends PIXI.Container {
         super();
 
         console.log("createUser", state.uuid);
+
+        this.id = state.uuid;
 
         //this.data = data;
 
@@ -107,6 +109,7 @@ export default class User extends PIXI.Container {
      * Destroys this user
      */
     public destroy() {
+        dispatcher.dispatch(EVENT.DESTROY_USER, this);
         super.destroy();
     }
 }
