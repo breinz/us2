@@ -1,6 +1,6 @@
 import config from './config';
 import app from './app';
-import socket from "./io";
+import socket from "./back/io";
 
 let server = require("http").createServer(app);
 

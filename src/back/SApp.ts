@@ -9,7 +9,7 @@ export default class SApp {
     constructor() {
         this.arGames = [];
 
-        setInterval(this.ticker, 1000);
+        setInterval(this.ticker, 1000 / 60);
     }
 
     /**

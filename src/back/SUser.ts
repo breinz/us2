@@ -4,6 +4,7 @@ import SGame from "./SGame";
 import Keyboard from "../front/keyboard";
 import { keyboard, D2R, EVENT } from "../helper";
 import dispatcher from "../dispatcher";
+import { gameServer } from "../app";
 
 export default class SUser {
 
@@ -121,6 +122,6 @@ export default class SUser {
             this.moveLeft = pressed;
         }
 
-        dispatcher.dispatch(EVENT.STATE_UPDATE, this.game.uuid);
+        this.game.pushState();
     }
 }

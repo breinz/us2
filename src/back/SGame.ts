@@ -2,8 +2,9 @@ import * as uniqid from "uniqid"
 import SUser from "./SUser";
 import { State, GameState, UserState } from "../types";
 import Keyboard from "../front/keyboard";
-import { keyboard } from "../helper";
-import io from "../io";
+import { keyboard, EVENT } from "../helper";
+import io from "./io";
+import dispatcher from "../dispatcher";
 
 export default class SGame {
 
@@ -27,6 +28,11 @@ export default class SGame {
      */
     public height: number;
 
+    /**
+     * Flag to push the state on the next tick
+     */
+    private _pushState: boolean = false;
+
     constructor() {
         this.uuid = uniqid();
 
@@ -44,6 +50,11 @@ export default class SGame {
     public tick() {
         for (let i = 0; i < this.arUsers.length; i++) {
             this.arUsers[i].tick();
+        }
+
+        if (this._pushState) {
+            dispatcher.dispatch(EVENT.STATE_UPDATE, this.uuid);
+            this._pushState = false;
         }
     }
 
@@ -67,16 +78,6 @@ export default class SGame {
             if (this.arUsers[i].uuid === uuid) return true;
         }
         return false;
-    }
-
-    /**
-     * 
-     * @param uid The user's id
-     */
-    public initStateFor(uid: string) {
-        return {
-
-        }
     }
 
     /**
@@ -135,6 +136,10 @@ export default class SGame {
             if (this.arUsers[i].uuid === uuid) return this.arUsers[i];
         }
         return null;
+    }
+
+    public pushState() {
+        this._pushState = true;
     }
 
     /**

@@ -69,7 +69,7 @@ export default class User extends PIXI.Container implements IDisplayable {
      */
     private draw() {
         let s = new PIXI.Graphics();
-        s.beginFill(0xFFFF00);
+        s.beginFill(game.users.me === this ? 0x0066FF : 0xFF6600);
         s.drawCircle(0, 0, 10);
         this.addChild(s);
 

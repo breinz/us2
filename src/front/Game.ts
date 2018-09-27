@@ -24,24 +24,14 @@ export default class Game {
     public app: PIXI.Application;
 
     /**
-     * Main socket
-     */
-    public socket: SocketIOClient.Socket;
-
-    /**
      * Game socket
      */
-    //public game_socket: SocketIOClient.Socket;
+    public socket: SocketIOClient.Socket;
 
     /** 
      * Keyboard 
      */
     public key: Keyboard;
-
-    /** 
-     * The player 
-     */
-    private user: User;
 
     /**
      * List of users
@@ -55,9 +45,6 @@ export default class Game {
 
         /** Initialize the users list */
         this.users = new Users(uid);
-
-        // Create the user
-        //this.user = new User(uid);
 
         this.key = new Keyboard(gid, uid);
 
@@ -108,7 +95,7 @@ export default class Game {
      * Receive a game state
      */
     private onStateUpdate = (state: State) => {
-        console.log(state);
+        //console.log(state);
 
         // Update the uses
         this.users.update(state);
