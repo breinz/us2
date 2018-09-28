@@ -58,6 +58,11 @@ export default class SGame {
         }
     }
 
+    public forcePush() {
+        console.log("forcePush");
+        this._pushState = true;
+    }
+
     /**
      * A new user joins the game
      * @param name The user's name
@@ -155,6 +160,7 @@ export default class SGame {
                 }
             }
         }
+        dispatcher.dispatch(EVENT.STATE_UPDATE, this.uuid);
     }
 
     /**

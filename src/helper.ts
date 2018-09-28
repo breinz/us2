@@ -21,6 +21,11 @@ export const EVENT = {
     DESTROY_USER: "event_destroyUser"
 };
 
+/**
+ * Tick interval shared between server and client
+ */
+export const tick_interval = 1000 / 3;
+
 /** 
  * Const to convert degrees in radians
  */

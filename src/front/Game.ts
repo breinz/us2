@@ -3,7 +3,7 @@ import Axios from "axios"
 import { State } from "../types";
 import Background from "./Background";
 import dispatcher from "../dispatcher";
-import { between, SOCKET, EVENT } from "../helper";
+import { between, SOCKET, EVENT, tick_interval } from "../helper";
 import * as io from "socket.io-client"
 import { game } from "./main";
 import Keyboard from "./keyboard";
@@ -89,6 +89,10 @@ export default class Game {
 
         // Make it interactive
         this.app.stage.interactive = true;
+
+        setInterval(this.tick, tick_interval);
+
+        //this.app.ticker.add(this.tick);
     }
 
     /**
@@ -101,6 +105,11 @@ export default class Game {
         this.users.update(state);
 
         //this.user.onStateUpdate(state);
+    }
+
+    private tick = () => {
+        //console.log(this.app.ticker.FPS);
+        this.users.tick();
     }
 
     /**

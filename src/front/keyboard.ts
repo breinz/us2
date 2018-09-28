@@ -65,8 +65,8 @@ export default class Keyboard {
         // Send the key to the server
         game.socket.emit(SOCKET.KEY_DOWN, this.user_id, event.keyCode);
 
-        dispatcher.dispatch(EVENT["KEY_DOWN"]);
-        dispatcher.dispatch(EVENT.KEY_PRESSED, event.keyCode)
+        //dispatcher.dispatch(EVENT.KEY_DOWN);
+        //dispatcher.dispatch(EVENT.KEY_PRESSED, event.keyCode)
     }
 
     /**
@@ -89,7 +89,7 @@ export default class Keyboard {
         // Send the key to the server
         game.socket.emit(SOCKET.KEY_UP, this.user_id, event.keyCode);
 
-        dispatcher.dispatch(EVENT["KEY_UP"]);
+        //dispatcher.dispatch(EVENT["KEY_UP"]);
     }
 
 }

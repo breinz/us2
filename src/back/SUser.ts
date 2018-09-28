@@ -20,7 +20,7 @@ export default class SUser {
     /**
      * Speed
      */
-    private speed: number = 2;
+    private speed: number = 10;
 
     /** Is the user moving to the left */
     private moveLeft: boolean = false;
@@ -77,7 +77,7 @@ export default class SUser {
         const direction = this.moveUp ? -1 : 1;
 
         if (this.moveRight || this.moveLeft) {
-            return Math.sin(D2R * 45) * this.speed * direction;
+            return Math.round(Math.sin(D2R * 45) * this.speed * direction * 100) / 100;
         }
 
         return this.speed * direction;
@@ -87,12 +87,8 @@ export default class SUser {
      * Ticker
      */
     public tick() {
-        if (this.moveUp === true) {
-            this.y--;
-        }
-        if (this.moveLeft === true) {
-            this.x--;
-        }
+        this.x += this.vx;
+        this.y += this.vy;
     }
 
     /**

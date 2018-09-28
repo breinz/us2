@@ -17,14 +17,42 @@ export default class User extends PIXI.Container implements IDisplayable {
     public state: UserState;
 
     /**
+     * Flag when the user has been drawn
+     */
+    private _drawn: boolean;
+
+    /**
      * Has the user been updated. Aka does it still exist on the server
      */
     private updated: boolean;
+
+    private justUpdated: boolean;
 
     constructor(state: UserState) {
         super();
 
         this.updateState(state);
+    }
+
+    public tick() {
+        let redraw: boolean = false;
+
+        if (!this.justUpdated) {
+            if (this.state.vx !== 0) {
+                this.state.x += this.state.vx;
+                redraw = true;
+            }
+            if (this.state.vy !== 0) {
+                this.state.y += this.state.vy;
+                redraw = true;
+                console.log("moooove", this.state.vy);
+            }
+        }
+        this.justUpdated = false;
+
+        //if (redraw) {
+        this.draw();
+        //}
     }
 
     /**
@@ -62,18 +90,22 @@ export default class User extends PIXI.Container implements IDisplayable {
         this.state = state;
 
         this.updated = true;
+        this.justUpdated = true;
     }
 
     /**
      * Draw the user
      */
     private draw() {
-        let s = new PIXI.Graphics();
-        s.beginFill(game.users.me === this ? 0x0066FF : 0xFF6600);
-        s.drawCircle(0, 0, 10);
-        this.addChild(s);
+        if (!this._drawn) {
+            console.log("draw");
+            let s = new PIXI.Graphics();
+            s.beginFill(game.users.me === this ? 0x0066FF : 0xFF6600);
+            s.drawCircle(0, 0, 10);
+            this.addChild(s);
 
-        game.app.stage.addChild(this);
+            game.app.stage.addChild(this);
+        }
 
         if (this === game.users.me) {
             this.x = window.innerWidth / 2;
@@ -83,6 +115,8 @@ export default class User extends PIXI.Container implements IDisplayable {
             this.x = pos.x;
             this.y = pos.y;
         }
+
+        this._drawn = true;
 
     }
 

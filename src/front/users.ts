@@ -29,6 +29,12 @@ export default class Users {
         dispatcher.on(EVENT.DESTROY_USER, this.onDestroyUser);
     }
 
+    public tick() {
+        for (let i = 0; i < this.arUsers.length; i++) {
+            this.arUsers[i].tick();
+        }
+    }
+
     /**
      * Update the users
      * @param state The game state

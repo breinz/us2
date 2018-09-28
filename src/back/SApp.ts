@@ -1,5 +1,6 @@
 import SGame from "./SGame";
 import { State } from "../types";
+import { tick_interval } from "../helper";
 
 export default class SApp {
 
@@ -9,7 +10,8 @@ export default class SApp {
     constructor() {
         this.arGames = [];
 
-        setInterval(this.ticker, 1000 / 60);
+        setInterval(this.ticker, tick_interval);
+        setInterval(this.forcePush, 1000);
     }
 
     /**
@@ -89,6 +91,12 @@ export default class SApp {
         for (let i = 0; i < this.arGames.length; i++) {
             this.arGames[i].tick();
         }
+    }
+
+    private forcePush = () => {
+        /*for (let i = 0; i < this.arGames.length; i++) {
+            this.arGames[i].forcePush();
+        }*/
     }
 
     /**
