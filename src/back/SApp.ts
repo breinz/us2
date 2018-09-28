@@ -11,7 +11,7 @@ export default class SApp {
         this.arGames = [];
 
         setInterval(this.ticker, tick_interval);
-        setInterval(this.forcePush, 1000);
+        setInterval(this.forcePush, tick_interval * 2);
     }
 
     /**
@@ -96,9 +96,9 @@ export default class SApp {
     }
 
     private forcePush = () => {
-        /*for (let i = 0; i < this.arGames.length; i++) {
+        for (let i = 0; i < this.arGames.length; i++) {
             this.arGames[i].forcePush();
-        }*/
+        }
     }
 
     /**

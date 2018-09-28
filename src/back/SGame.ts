@@ -44,25 +44,25 @@ export default class SGame {
         io.createGameServer(this.uuid);
     }
 
+    private frame = 0;
     /**
      * Ticker
      */
     public tick() {
+        this.frame++;
         for (let i = 0; i < this.arUsers.length; i++) {
             this.arUsers[i].tick();
         }
 
         if (this._pushState) {
-            console.log("EMIT");
             dispatcher.dispatch(EVENT.STATE_UPDATE, this.uuid);
             this._pushState = false;
         }
     }
 
-    /*public forcePush() {
-        console.log("forcePush");
+    public forcePush() {
         this._pushState = true;
-    }*/
+    }
 
     /**
      * A new user joins the game

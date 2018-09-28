@@ -27,13 +27,13 @@ class Io {
      * @param gameId Game id
      */
     public createGameServer(gameId: string) {
-        const game_io = this.io.of(`/${gameId}`);
+        //const game_io = this.io.of(`/${gameId}`);
 
-        game_io.on("connection", (socket) => {
+        const game_io = this.io.of(`/${gameId}`).on("connection", (socket) => {
 
             // A client ask for a state
             socket.on(SOCKET.GET_STATE, (gid) => {
-                game_io.emit(SOCKET.STATE_UPDATE, gameServer.gameState(gid))
+                game_io.emit(SOCKET.STATE_UPDATE, gameServer.gameState(gid));
             });
 
             // Key down

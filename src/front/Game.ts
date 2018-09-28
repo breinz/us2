@@ -1,13 +1,10 @@
 import * as PIXI from "pixi.js"
-import Axios from "axios"
 import { State } from "../types";
 import Background from "./Background";
 import dispatcher from "../dispatcher";
-import { between, SOCKET, EVENT, tick_interval } from "../helper";
+import { SOCKET, EVENT, tick_interval } from "../helper";
 import * as io from "socket.io-client"
-import { game } from "./main";
 import Keyboard from "./keyboard";
-import User from "./User";
 import Users from "./users";
 import IDisplayable from "./IDisplayable";
 
@@ -56,6 +53,7 @@ export default class Game {
 
         // Ask for the game state
         this.socket.emit(SOCKET.GET_STATE, this.id);
+
     }
 
     /**
@@ -63,10 +61,6 @@ export default class Game {
      * @param obj The object to position
      */
     public posFromMe(obj: IDisplayable): { x: number, y: number } {
-        /*return {
-            x: obj.state.x,
-            y: obj.state.y
-        }*/
         return {
             x: window.innerWidth / 2 + obj.state.x - this.users.me.state.x,
             y: window.innerHeight / 2 + obj.state.y - this.users.me.state.y
@@ -107,10 +101,6 @@ export default class Game {
      * Receive a game state
      */
     private onStateUpdate = (state: State) => {
-        //console.log(state);
-
-        console.log("receive", Date.now());
-        console.log(state);
 
         // Update the uses
         this.users.update(state);
@@ -119,7 +109,6 @@ export default class Game {
     }
 
     private tick = () => {
-        //console.log(this.app.ticker.FPS);
         this.users.tick();
     }
 
@@ -141,7 +130,6 @@ export default class Game {
 
         //const data: State = res.data;
 
-        //console.log(data);
 
         // Open a connection to the socket
         this.socket = io();

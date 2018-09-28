@@ -35,7 +35,6 @@ export default class User extends PIXI.Container implements IDisplayable {
     }
 
     public tick() {
-        //console.log(this.id, this.state.y);
         let redraw: boolean = false;
 
         if (!this.justUpdated) {
