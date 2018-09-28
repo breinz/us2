@@ -80,7 +80,9 @@ export default class SApp {
             this.arGames.push(game);
             return game;
         }
+
         /** @todo Create another game if all are full (define full too) */
+
         return this.arGames[0]
     }
 

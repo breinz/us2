@@ -53,15 +53,16 @@ export default class SGame {
         }
 
         if (this._pushState) {
+            console.log("EMIT");
             dispatcher.dispatch(EVENT.STATE_UPDATE, this.uuid);
             this._pushState = false;
         }
     }
 
-    public forcePush() {
+    /*public forcePush() {
         console.log("forcePush");
         this._pushState = true;
-    }
+    }*/
 
     /**
      * A new user joins the game
@@ -143,6 +144,9 @@ export default class SGame {
         return null;
     }
 
+    /**
+     * Set the game so it sends the state at the next update
+     */
     public pushState() {
         this._pushState = true;
     }
@@ -160,7 +164,7 @@ export default class SGame {
                 }
             }
         }
-        dispatcher.dispatch(EVENT.STATE_UPDATE, this.uuid);
+        //dispatcher.dispatch(EVENT.STATE_UPDATE, this.uuid);
     }
 
     /**

@@ -58,7 +58,15 @@ export default class Game {
         this.socket.emit(SOCKET.GET_STATE, this.id);
     }
 
-    public pos(obj: IDisplayable): { x: number, y: number } {
+    /**
+     * Position an item relative to the main user
+     * @param obj The object to position
+     */
+    public posFromMe(obj: IDisplayable): { x: number, y: number } {
+        /*return {
+            x: obj.state.x,
+            y: obj.state.y
+        }*/
         return {
             x: window.innerWidth / 2 + obj.state.x - this.users.me.state.x,
             y: window.innerHeight / 2 + obj.state.y - this.users.me.state.y
@@ -100,6 +108,9 @@ export default class Game {
      */
     private onStateUpdate = (state: State) => {
         //console.log(state);
+
+        console.log("receive", Date.now());
+        console.log(state);
 
         // Update the uses
         this.users.update(state);

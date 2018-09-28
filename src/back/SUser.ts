@@ -2,7 +2,7 @@ import * as uniqid from "uniqid";
 import { UserState } from "../types";
 import SGame from "./SGame";
 import Keyboard from "../front/keyboard";
-import { keyboard, D2R, EVENT } from "../helper";
+import { keyboard, D2R, EVENT, round } from "../helper";
 import dispatcher from "../dispatcher";
 import { gameServer } from "../app";
 
@@ -20,7 +20,7 @@ export default class SUser {
     /**
      * Speed
      */
-    private speed: number = 10;
+    private speed: number = 2;
 
     /** Is the user moving to the left */
     private moveLeft: boolean = false;
@@ -77,7 +77,7 @@ export default class SUser {
         const direction = this.moveUp ? -1 : 1;
 
         if (this.moveRight || this.moveLeft) {
-            return Math.round(Math.sin(D2R * 45) * this.speed * direction * 100) / 100;
+            return round(Math.sin(D2R * 45) * this.speed * direction, 2);
         }
 
         return this.speed * direction;
@@ -111,11 +111,17 @@ export default class SUser {
      * @param pressed Is the key pressed (true) or released (false)
      */
     public onMove(key: number, pressed: boolean) {
+        if (keyboard.isLeft(key)) {
+            this.moveLeft = pressed;
+        }
+        if (keyboard.isRight(key)) {
+            this.moveRight = pressed;
+        }
         if (keyboard.isUp(key)) {
             this.moveUp = pressed;
         }
-        if (keyboard.isLeft(key)) {
-            this.moveLeft = pressed;
+        if (keyboard.isDown(key)) {
+            this.moveDown = pressed;
         }
 
         this.game.pushState();

@@ -27,20 +27,13 @@ class Io {
      * @param gameId Game id
      */
     public createGameServer(gameId: string) {
-        this.io.of(`/${gameId}`).on("connection", (socket) => {
+        const game_io = this.io.of(`/${gameId}`);
 
-            const gameSocket = this.io.of(`/${gameId}`);
+        game_io.on("connection", (socket) => {
 
             // A client ask for a state
             socket.on(SOCKET.GET_STATE, (gid) => {
-                gameSocket.emit(SOCKET.STATE_UPDATE, gameServer.gameState(gid))
-            });
-
-            // The server push the state to the clients
-            dispatcher.on(EVENT.STATE_UPDATE, (gid: string) => {
-                if (gid === gameId) {
-                    gameSocket.emit(SOCKET.STATE_UPDATE, gameServer.gameState(gid))
-                }
+                game_io.emit(SOCKET.STATE_UPDATE, gameServer.gameState(gid))
             });
 
             // Key down
@@ -52,7 +45,14 @@ class Io {
             socket.on(SOCKET.KEY_UP, (uid: string, key: number) => {
                 gameServer.onKeyUp(gameId, uid, key);
             });
-        })
+        });
+
+        // Push the state to the clients
+        dispatcher.on(EVENT.STATE_UPDATE, (gid: string) => {
+            if (gid === gameId) {
+                game_io.emit(SOCKET.STATE_UPDATE, gameServer.gameState(gid))
+            }
+        });
     }
 }
 export default new Io()

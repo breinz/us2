@@ -35,6 +35,7 @@ export default class User extends PIXI.Container implements IDisplayable {
     }
 
     public tick() {
+        //console.log(this.id, this.state.y);
         let redraw: boolean = false;
 
         if (!this.justUpdated) {
@@ -45,7 +46,6 @@ export default class User extends PIXI.Container implements IDisplayable {
             if (this.state.vy !== 0) {
                 this.state.y += this.state.vy;
                 redraw = true;
-                console.log("moooove", this.state.vy);
             }
         }
         this.justUpdated = false;
@@ -73,7 +73,7 @@ export default class User extends PIXI.Container implements IDisplayable {
         }
 
         // Draw the user
-        this.draw();
+        //this.draw();
 
         /** @todo Check if the user is too far from me => destroy */
 
@@ -98,7 +98,6 @@ export default class User extends PIXI.Container implements IDisplayable {
      */
     private draw() {
         if (!this._drawn) {
-            console.log("draw");
             let s = new PIXI.Graphics();
             s.beginFill(game.users.me === this ? 0x0066FF : 0xFF6600);
             s.drawCircle(0, 0, 10);
@@ -111,10 +110,12 @@ export default class User extends PIXI.Container implements IDisplayable {
             this.x = window.innerWidth / 2;
             this.y = window.innerHeight / 2;
         } else {
-            const pos = game.pos(this);
+            const pos = game.posFromMe(this);
             this.x = pos.x;
             this.y = pos.y;
         }
+        //this.x = this.state.x;
+        //this.y = this.state.y;
 
         this._drawn = true;
 
