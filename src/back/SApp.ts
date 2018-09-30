@@ -1,6 +1,6 @@
 import SGame from "./SGame";
 import { State } from "../types";
-import { tick_interval } from "../helper";
+import { server_tick_interval } from "../helper";
 
 export default class SApp {
 
@@ -10,8 +10,8 @@ export default class SApp {
     constructor() {
         this.arGames = [];
 
-        setInterval(this.ticker, tick_interval);
-        setInterval(this.forcePush, tick_interval * 2);
+        setInterval(this.ticker, server_tick_interval);
+        setInterval(this.forcePush, server_tick_interval * 2);
     }
 
     /**
@@ -37,13 +37,13 @@ export default class SApp {
      * Get the game state for a certain user
      * @param uuid The user's id
      */
-    public stateFor(uuid: string): State {
+    /*public stateFor(uuid: string): State {
         const game = this.findGame(uuid);
         if (!game) {
             throw `User ${uuid} found in no games`;
         }
         return game.stateFor(uuid);
-    }
+    }*/
 
     /**
      * The state of a game
@@ -127,6 +127,20 @@ export default class SApp {
             if (this.arGames[i].uuid === gid) {
                 this.arGames[i].onKeyUp(uid, key);
                 return;
+            }
+        }
+    }
+
+    /**
+     * A user move his mouse
+     * @param gid Game id
+     * @param uid User id
+     * @param angle Angle between the mouse and the user
+     */
+    public onMouseMove(gid: string, uid: string, angle: number) {
+        for (let i = 0; i < this.arGames.length; i++) {
+            if (this.arGames[i].uuid === gid) {
+                this.arGames[i].onMouseMove(uid, angle);
             }
         }
     }

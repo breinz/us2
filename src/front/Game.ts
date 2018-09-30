@@ -2,11 +2,13 @@ import * as PIXI from "pixi.js"
 import { State } from "../types";
 import Background from "./Background";
 import dispatcher from "../dispatcher";
-import { SOCKET, EVENT, tick_interval } from "../helper";
+import { SOCKET, EVENT, server_tick_interval, client_tick_interval } from "../helper";
 import * as io from "socket.io-client"
-import Keyboard from "./keyboard";
+import Controls from "./controls";
 import Users from "./users";
 import IDisplayable from "./IDisplayable";
+import { game } from "./main";
+import Foods from "./Foods";
 
 export default class Game {
 
@@ -18,7 +20,12 @@ export default class Game {
     /**
      * The PIXI app
      */
-    public app: PIXI.Application;
+    private app: PIXI.Application;
+
+    /**
+     * Main container
+     */
+    public container: PIXI.Container;
 
     /**
      * Game socket
@@ -26,14 +33,24 @@ export default class Game {
     public socket: SocketIOClient.Socket;
 
     /** 
-     * Keyboard 
+     * Controls 
      */
-    public key: Keyboard;
+    public controls: Controls;
 
     /**
      * List of users
      */
     public users: Users;
+
+    /**
+     * List of food
+     */
+    public foods: Foods;
+
+    /**
+     * Flag, has the data been initialized
+     */
+    private initialized: boolean;
 
     constructor(gid: string, uid: string) {
         this.id = gid;
@@ -43,7 +60,7 @@ export default class Game {
         /** Initialize the users list */
         this.users = new Users(uid);
 
-        this.key = new Keyboard(gid, uid);
+        this.foods = new Foods();
 
         // Connect to the socket
         this.socket = io(`/${this.id}`);
@@ -79,20 +96,21 @@ export default class Game {
             height: window.innerHeight,
             transparent: true,
             antialias: true
-        })
+        });
+
+        this.container = new PIXI.Container();
+        this.app.stage.addChild(this.container);
 
         // Remove right click
         this.app.view.addEventListener("contextmenu", (e) => {
             e.preventDefault();
-        })
+        });
 
         // Add to screen
         document.getElementById("game").appendChild(this.app.view)
 
         // Make it interactive
         this.app.stage.interactive = true;
-
-        setInterval(this.tick, tick_interval);
 
         //this.app.ticker.add(this.tick);
     }
@@ -105,11 +123,33 @@ export default class Game {
         // Update the uses
         this.users.update(state);
 
+        // Update the foods
+        this.foods.update(state.food);
+
+        // Everything is ready to start the ticker
+        if (!this.initialized) {
+            setInterval(this.tick, client_tick_interval);
+
+            this.controls = new Controls();
+
+            console.log(state);
+        }
+
+        this.initialized = true;
+
         //this.user.onStateUpdate(state);
     }
 
     private tick = () => {
+
         this.users.tick();
+
+
+        this.container.x = -this.users.me.x + window.innerWidth / 2;
+        this.container.y = -this.users.me.y + window.innerHeight / 2;
+
+
+        this.controls.tick();
     }
 
     /**

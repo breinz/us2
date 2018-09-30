@@ -45,6 +45,11 @@ class Io {
             socket.on(SOCKET.KEY_UP, (uid: string, key: number) => {
                 gameServer.onKeyUp(gameId, uid, key);
             });
+
+            // MouseMove
+            socket.on(SOCKET.MOUSE_MOVE, (uid: string, angle: number) => {
+                gameServer.onMouseMove(gameId, uid, angle);
+            })
         });
 
         // Push the state to the clients

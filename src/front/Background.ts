@@ -83,10 +83,10 @@ export default class Background {
         let star: Star;
         for (let i = 0; i < this.arStars.length; i++) {
             star = this.arStars[i];
-            if (game.key.up) star.y += 3;
-            if (game.key.down) star.y -= 3;
-            if (game.key.right) star.x -= 3;
-            if (game.key.left) star.x += 3;
+            if (game.controls.up) star.y += 3;
+            if (game.controls.down) star.y -= 3;
+            if (game.controls.right) star.x -= 3;
+            if (game.controls.left) star.x += 3;
 
             this.repositionStar(star);
         }

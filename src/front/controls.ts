@@ -1,18 +1,28 @@
 import dispatcher from "../dispatcher";
-import { EVENT, SOCKET, keyboard } from "../helper";
+import { EVENT, SOCKET, keyboard, round } from "../helper";
 import { game } from "./main";
 
-export default class Keyboard {
+export default class Controls {
 
     /**
      * The user's id
      */
-    private user_id: string;
+    //private user_id: string;
 
     /**
      * The game's id
      */
-    private game_id: string;
+    //private game_id: string;
+
+    /**
+     * Flag to send the mouse pos
+     */
+    private mouseChanged: boolean = false;
+
+    /**
+     * Mouse position, relative to the user
+     */
+    private mousePos: { x: number, y: number };
 
     /**
      * Key pressed
@@ -24,14 +34,34 @@ export default class Keyboard {
     public up: boolean = false;
     public down: boolean = false;
 
-    constructor(game_id: string, user_id: string) {
-        this.user_id = user_id;
-        this.game_id = game_id;
+    /**
+     * Angle in radians between the mouse and the screen center (user)
+     */
+    private angle: number;
 
+    /**
+     * Angle between the mouse and the user
+     */
+    /*public get angle(): number {
+        return round(Math.atan2(this.mousePos.y, this.mousePos.x), 2)
+    }*/
+
+    constructor() {
         this.arPressed = [];
 
-        window.addEventListener("keydown", this.onKeyDown)
-        window.addEventListener("keyup", this.onKeyUp)
+        //window.addEventListener("keydown", this.onKeyDown)
+        //window.addEventListener("keyup", this.onKeyUp)
+        window.addEventListener("mousemove", this.onMouseMove);
+    }
+
+    /**
+     * Tick
+     */
+    public tick() {
+        if (this.mouseChanged) {
+            game.socket.emit(SOCKET.MOUSE_MOVE, game.users.me.id, this.angle);
+            this.mouseChanged = false;
+        }
     }
 
     /**
@@ -65,7 +95,7 @@ export default class Keyboard {
         if (keyboard.isRight(event.keyCode)) this.right = true;
 
         // Send the key to the server
-        game.socket.emit(SOCKET.KEY_DOWN, this.user_id, event.keyCode);
+        game.socket.emit(SOCKET.KEY_DOWN, game.users.me.id, event.keyCode);
 
         //dispatcher.dispatch(EVENT.KEY_DOWN);
         //dispatcher.dispatch(EVENT.KEY_PRESSED, event.keyCode)
@@ -89,9 +119,29 @@ export default class Keyboard {
         }
 
         // Send the key to the server
-        game.socket.emit(SOCKET.KEY_UP, this.user_id, event.keyCode);
+        game.socket.emit(SOCKET.KEY_UP, game.users.me.id, event.keyCode);
 
         //dispatcher.dispatch(EVENT["KEY_UP"]);
+    }
+
+    /**
+     * MouseMove
+     * @param event Mouse event
+     */
+    private onMouseMove = (event: MouseEvent) => {
+        const me = game.container.toGlobal(game.users.me.position)
+        this.angle = round(
+            Math.atan2(
+                event.offsetY - me.y,// window.innerHeight / 2,
+                event.offsetX - me.x
+            )
+            , 2);
+        /*this.mousePos = {
+            x: event.offsetX - window.innerWidth / 2,
+            y: event.offsetY - window.innerHeight / 2
+        };*/
+        this.mouseChanged = true;
+
     }
 
 }

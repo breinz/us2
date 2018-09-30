@@ -102,17 +102,18 @@ export default class User extends PIXI.Container implements IDisplayable {
             s.drawCircle(0, 0, 10);
             this.addChild(s);
 
-            game.app.stage.addChild(this);
+            game.container.addChild(this);
         }
 
-        if (this === game.users.me) {
+        /*if (this === game.users.me) {
             this.x = window.innerWidth / 2;
             this.y = window.innerHeight / 2;
         } else {
-            const pos = game.posFromMe(this);
-            this.x = pos.x;
-            this.y = pos.y;
-        }
+            const pos = game.posFromMe(this);*/
+        //console.log(this.state.x);
+        this.x = this.state.x;// pos.x;
+        this.y = this.state.y;// pos.y;
+        //}
         //this.x = this.state.x;
         //this.y = this.state.y;
 

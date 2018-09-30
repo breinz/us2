@@ -6,7 +6,8 @@ export const SOCKET = {
     KEY_DOWN: "socket_keyDown",
     KEY_UP: "socket_keyUp",
     GET_STATE: "socket_getState",
-    STATE_UPDATE: "socket_stateUpdate"
+    STATE_UPDATE: "socket_stateUpdate",
+    MOUSE_MOVE: "socket_mouseMove"
 }
 
 /**
@@ -24,7 +25,9 @@ export const EVENT = {
 /**
  * Tick interval shared between server and client
  */
-export const tick_interval = 1000 / 60;
+export const server_tick_interval = 1000 / 60;
+
+export const client_tick_interval = 1000 / 60;
 
 /** 
  * Const to convert degrees in radians

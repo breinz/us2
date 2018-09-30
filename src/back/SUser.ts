@@ -1,8 +1,8 @@
 import * as uniqid from "uniqid";
 import { UserState } from "../types";
 import SGame from "./SGame";
-import Keyboard from "../front/keyboard";
-import { keyboard, D2R, EVENT, round } from "../helper";
+import Controls from "../front/controls";
+import { keyboard, D2R, EVENT, round, R2D } from "../helper";
 import dispatcher from "../dispatcher";
 import { gameServer } from "../app";
 
@@ -40,6 +40,10 @@ export default class SUser {
      */
     private y: number;
 
+    private vx: number;
+
+    private vy: number;
+
     constructor(name: string, game: SGame) {
         this.game = game;
 
@@ -49,12 +53,15 @@ export default class SUser {
         // Position the user randomly
         this.x = Math.round(Math.random() * this.game.width);
         this.y = Math.round(Math.random() * this.game.height);
+
+        this.vx = 0;
+        this.vy = 0;
     }
 
     /**
      * x velocity
      */
-    private get vx(): number {
+    /*private get vx(): number {
         if (!this.moveLeft && !this.moveRight) return 0;
         if (this.moveLeft && this.moveRight) return 0;
 
@@ -65,12 +72,12 @@ export default class SUser {
         }
 
         return this.speed * direction;
-    }
+    }*/
 
     /**
      * y velocity
      */
-    private get vy(): number {
+    /*private get vy(): number {
         if (!this.moveUp && !this.moveDown) return 0;
         if (this.moveUp && this.moveDown) return 0;
 
@@ -81,7 +88,7 @@ export default class SUser {
         }
 
         return this.speed * direction;
-    }
+    }*/
 
     /**
      * Ticker
@@ -125,5 +132,17 @@ export default class SUser {
         }
 
         this.game.pushState();
+    }
+
+    /**
+     * Mouse move
+     * @param angle Angle between the mouse and the user
+     */
+    public onMouseMove(angle: number) {
+        this.vx = round(Math.cos(angle) * this.speed, 2);
+        this.vy = round(Math.sin(angle) * this.speed, 2);
+
+        //console.log(angle * R2D);
+        //console.log("mousemove", event.offsetX);
     }
 }

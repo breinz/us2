@@ -11,8 +11,14 @@ export type UserState = {
     vy: number
 };
 
+export type FoodState = {
+    x: number,
+    y: number
+}
+
 export type State = {
     game: GameState,
     //user: UserState,
-    users: UserState[]
+    users: UserState[],
+    food: FoodState[]
 };

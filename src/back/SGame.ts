@@ -1,10 +1,12 @@
 import * as uniqid from "uniqid"
 import SUser from "./SUser";
 import { State, GameState, UserState } from "../types";
-import Keyboard from "../front/keyboard";
+import Controls from "../front/controls";
 import { keyboard, EVENT } from "../helper";
 import io from "./io";
 import dispatcher from "../dispatcher";
+import SFood from "./SFood";
+import Sfoods from "./Sfoods";
 
 export default class SGame {
 
@@ -17,6 +19,11 @@ export default class SGame {
      * List of players 
      */
     private arUsers: SUser[];
+
+    /**
+     * List of food
+     */
+    private foods: Sfoods;
 
     /** 
      * Width of the game 
@@ -42,6 +49,8 @@ export default class SGame {
         this.height = 300;//10000;
 
         io.createGameServer(this.uuid);
+
+        this.foods = new Sfoods(this);
     }
 
     private frame = 0;
@@ -53,6 +62,8 @@ export default class SGame {
         for (let i = 0; i < this.arUsers.length; i++) {
             this.arUsers[i].tick();
         }
+
+        this.foods.tick();
 
         if (this._pushState) {
             dispatcher.dispatch(EVENT.STATE_UPDATE, this.uuid);
@@ -90,7 +101,7 @@ export default class SGame {
      * The game state
      * @param uuid The user's uuid
      */
-    public stateFor(uuid: string): State {
+    /*public stateFor(uuid: string): State {
         let user = this.findUser(uuid);
 
         if (!user) {
@@ -102,13 +113,15 @@ export default class SGame {
             //user: user.state,
             users: this.usersState()
         }
-    }
+    }*/
 
     public getState(): State {
         return {
             game: this.state,
             //user: user.state,
-            users: this.usersState()
+            users: this.usersState(),
+
+            food: this.foods.getState()
         }
     }
 
@@ -178,6 +191,19 @@ export default class SGame {
                 if (this.arUsers[i].uuid === uid) {
                     this.arUsers[i].onMove(key, false);
                 }
+            }
+        }
+    }
+
+    /**
+     * A user move his mouse
+     * @param uid User id
+     * @param angle Angle between the mouse and the user
+     */
+    public onMouseMove(uid: string, angle: number) {
+        for (let i = 0; i < this.arUsers.length; i++) {
+            if (this.arUsers[i].uuid === uid) {
+                this.arUsers[i].onMouseMove(angle);
             }
         }
     }
