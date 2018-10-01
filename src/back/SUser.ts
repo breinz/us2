@@ -34,11 +34,11 @@ export default class SUser {
     /**
      * Position x
      */
-    private x: number;
+    public x: number;
     /**
      * Position y
      */
-    private y: number;
+    public y: number;
 
     private vx: number;
 
@@ -96,6 +96,20 @@ export default class SUser {
     public tick() {
         this.x += this.vx;
         this.y += this.vy;
+
+        if (this.x < 0) {
+            this.x = this.game.width + this.x;
+        }
+        if (this.y < 0) {
+            this.y = this.game.height + this.y;
+        }
+
+        if (this.x > this.game.width) {
+            this.x = this.x - this.game.width;
+        }
+        if (this.y > this.game.height) {
+            this.y = this.y - this.game.height;
+        }
     }
 
     /**

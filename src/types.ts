@@ -1,5 +1,7 @@
 export type GameState = {
-    uuid: string
+    uuid: string,
+    width: number,
+    height: number
 }
 
 export type UserState = {
@@ -12,13 +14,19 @@ export type UserState = {
 };
 
 export type FoodState = {
+    id: string,
     x: number,
     y: number
+}
+
+export type FoodsState = {
+    id: string,
+    food: FoodState[]
 }
 
 export type State = {
     game: GameState,
     //user: UserState,
     users: UserState[],
-    food: FoodState[]
+    food: FoodsState
 };

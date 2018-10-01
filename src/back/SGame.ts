@@ -18,7 +18,7 @@ export default class SGame {
     /** 
      * List of players 
      */
-    private arUsers: SUser[];
+    public arUsers: SUser[];
 
     /**
      * List of food
@@ -45,20 +45,18 @@ export default class SGame {
 
         this.arUsers = [];
 
-        this.width = 300;//10000;
-        this.height = 300;//10000;
+        this.width = 1000;//10000;
+        this.height = 1000;//10000;
 
         io.createGameServer(this.uuid);
 
         this.foods = new Sfoods(this);
     }
 
-    private frame = 0;
     /**
      * Ticker
      */
     public tick() {
-        this.frame++;
         for (let i = 0; i < this.arUsers.length; i++) {
             this.arUsers[i].tick();
         }
@@ -130,7 +128,9 @@ export default class SGame {
      */
     private get state(): GameState {
         return {
-            uuid: this.uuid
+            uuid: this.uuid,
+            width: this.width,
+            height: this.height
         }
     }
 

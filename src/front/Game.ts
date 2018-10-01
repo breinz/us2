@@ -22,6 +22,8 @@ export default class Game {
      */
     private app: PIXI.Application;
 
+    public renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
+
     /**
      * Main container
      */
@@ -36,6 +38,11 @@ export default class Game {
      * Controls 
      */
     public controls: Controls;
+
+    /**
+     * State
+     */
+    public state: State;
 
     /**
      * List of users
@@ -59,8 +66,6 @@ export default class Game {
 
         /** Initialize the users list */
         this.users = new Users(uid);
-
-        this.foods = new Foods();
 
         // Connect to the socket
         this.socket = io(`/${this.id}`);
@@ -94,9 +99,12 @@ export default class Game {
         this.app = new PIXI.Application({
             width: window.innerWidth,
             height: window.innerHeight,
-            transparent: true,
-            antialias: true
+            //transparent: true,
+            antialias: true,
+            backgroundColor: 0xEEEEEE
         });
+
+        this.renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight)
 
         this.container = new PIXI.Container();
         this.app.stage.addChild(this.container);
@@ -120,14 +128,21 @@ export default class Game {
      */
     private onStateUpdate = (state: State) => {
 
-        // Update the uses
-        this.users.update(state);
-
-        // Update the foods
-        this.foods.update(state.food);
+        this.state = state;
 
         // Everything is ready to start the ticker
         if (!this.initialized) {
+            // Background
+            const bg = new PIXI.Graphics();
+            bg.beginFill(0xEEEEEE);
+            bg.lineStyle(1, 0);
+            bg.drawRect(0, 0, state.game.width, state.game.height);
+            this.container.addChild(bg);
+
+            // Foods
+            this.foods = new Foods();
+            this.container.addChild(this.foods);
+
             setInterval(this.tick, client_tick_interval);
 
             this.controls = new Controls();
@@ -137,6 +152,12 @@ export default class Game {
 
         this.initialized = true;
 
+        // Update the uses
+        this.users.update(state);
+
+        // Update the foods
+        this.foods.update(state);
+
         //this.user.onStateUpdate(state);
     }
 
@@ -144,10 +165,8 @@ export default class Game {
 
         this.users.tick();
 
-
         this.container.x = -this.users.me.x + window.innerWidth / 2;
         this.container.y = -this.users.me.y + window.innerHeight / 2;
-
 
         this.controls.tick();
     }

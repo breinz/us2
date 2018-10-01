@@ -37,7 +37,7 @@ export default class User extends PIXI.Container implements IDisplayable {
     public tick() {
         let redraw: boolean = false;
 
-        if (!this.justUpdated) {
+        /*if (!this.justUpdated) {
             if (this.state.vx !== 0) {
                 this.state.x += this.state.vx;
                 redraw = true;
@@ -47,7 +47,7 @@ export default class User extends PIXI.Container implements IDisplayable {
                 redraw = true;
             }
         }
-        this.justUpdated = false;
+        this.justUpdated = false;*/
 
         //if (redraw) {
         this.draw();

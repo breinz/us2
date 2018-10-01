@@ -1,8 +1,14 @@
 import SGame from "./SGame";
 import { round } from "../helper";
 import { FoodState } from "../types";
+import * as uniqid from "uniqid"
 
 export default class SFood {
+
+    /**
+     * Id
+     */
+    private id: string;
 
     /**
      * X position
@@ -22,11 +28,16 @@ export default class SFood {
     constructor(game: SGame) {
         this.game = game;
 
-        //this.x = round((Math.random() * (game.width - 100)) + 50);
-        //this.y = round((Math.random() * (game.height - 100)) + 50);
+        this.id = uniqid();
 
-        this.x = round((Math.random() * (game.width)));
-        this.y = round((Math.random() * (game.height)));
+        this.position();
+
+    }
+
+    private position() {
+        this.x = round((Math.random() * (this.game.width - 20)) + 10);
+        this.y = round((Math.random() * (this.game.height - 20)) + 10);
+
     }
 
     /**
@@ -34,8 +45,20 @@ export default class SFood {
      */
     public getState(): FoodState {
         return {
+            id: this.id,
             x: this.x,
             y: this.y
+        }
+    }
+
+    public tick() {
+        for (let i = 0; i < this.game.arUsers.length; i++) {
+            if (Math.abs(this.game.arUsers[i].x - this.x) < 10 && Math.abs(this.game.arUsers[i].y - this.y) < 10) {
+                this.position();
+
+                /** @todo Give the user some points */
+            }
+
         }
     }
 }
