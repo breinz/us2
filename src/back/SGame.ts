@@ -169,7 +169,7 @@ export default class SGame {
      * @param uid The user's id
      * @param key The key code
      */
-    public onKeyDown(uid: string, key: number) {
+    /*public onKeyDown(uid: string, key: number) {
         if (keyboard.isMove(key)) {
             for (let i = 0; i < this.arUsers.length; i++) {
                 if (this.arUsers[i].uuid === uid) {
@@ -178,14 +178,14 @@ export default class SGame {
             }
         }
         //dispatcher.dispatch(EVENT.STATE_UPDATE, this.uuid);
-    }
+    }*/
 
     /**
      * Key up
      * @param uid The user's id
      * @param key The key code
      */
-    public onKeyUp(uid: string, key: number) {
+    /*public onKeyUp(uid: string, key: number) {
         if (keyboard.isMove(key)) {
             for (let i = 0; i < this.arUsers.length; i++) {
                 if (this.arUsers[i].uuid === uid) {
@@ -193,7 +193,7 @@ export default class SGame {
                 }
             }
         }
-    }
+    }*/
 
     /**
      * A user move his mouse

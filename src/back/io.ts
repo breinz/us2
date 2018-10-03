@@ -37,14 +37,14 @@ class Io {
             });
 
             // Key down
-            socket.on(SOCKET.KEY_DOWN, (uid: string, key: number) => {
+            /*socket.on(SOCKET.KEY_DOWN, (uid: string, key: number) => {
                 gameServer.onKeyDown(gameId, uid, key);
-            });
+            });*/
 
             // Key up
-            socket.on(SOCKET.KEY_UP, (uid: string, key: number) => {
+            /*socket.on(SOCKET.KEY_UP, (uid: string, key: number) => {
                 gameServer.onKeyUp(gameId, uid, key);
-            });
+            });*/
 
             // MouseMove
             socket.on(SOCKET.MOUSE_MOVE, (uid: string, angle: number) => {

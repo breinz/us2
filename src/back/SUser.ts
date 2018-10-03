@@ -1,17 +1,17 @@
 import * as uniqid from "uniqid";
 import { UserState } from "../types";
 import SGame from "./SGame";
-import Controls from "../front/controls";
-import { keyboard, D2R, EVENT, round, R2D } from "../helper";
-import dispatcher from "../dispatcher";
-import { gameServer } from "../app";
+import { round, R2D } from "../helper";
 
 export default class SUser {
+
+    private static levels: number[] = [30, 50, 80, 130, 210, 340, 550];
+    private level: number;
 
     /** The unique user's id */
     public uuid: string;
 
-    /** The game thus user's in */
+    /** The game this user's in */
     private game: SGame;
 
     /** The user's name */
@@ -22,15 +22,6 @@ export default class SUser {
      */
     private speed: number = 2;
 
-    /** Is the user moving to the left */
-    private moveLeft: boolean = false;
-    /** Is the user moving to the right */
-    private moveRight: boolean = false;
-    /** Is the user moving up */
-    private moveUp: boolean = false;
-    /** Is the user moving down */
-    private moveDown: boolean = false;
-
     /**
      * Position x
      */
@@ -39,6 +30,11 @@ export default class SUser {
      * Position y
      */
     public y: number;
+
+    /**
+     * food
+     */
+    private food: number;
 
     private vx: number;
 
@@ -56,39 +52,10 @@ export default class SUser {
 
         this.vx = 0;
         this.vy = 0;
+
+        this.level = 0;
+        this.food = 0;
     }
-
-    /**
-     * x velocity
-     */
-    /*private get vx(): number {
-        if (!this.moveLeft && !this.moveRight) return 0;
-        if (this.moveLeft && this.moveRight) return 0;
-
-        const direction = this.moveLeft ? -1 : 1;
-
-        if (this.moveUp || this.moveDown) {
-            return Math.cos(D2R * 45) * this.speed * direction;
-        }
-
-        return this.speed * direction;
-    }*/
-
-    /**
-     * y velocity
-     */
-    /*private get vy(): number {
-        if (!this.moveUp && !this.moveDown) return 0;
-        if (this.moveUp && this.moveDown) return 0;
-
-        const direction = this.moveUp ? -1 : 1;
-
-        if (this.moveRight || this.moveLeft) {
-            return round(Math.sin(D2R * 45) * this.speed * direction, 2);
-        }
-
-        return this.speed * direction;
-    }*/
 
     /**
      * Ticker
@@ -122,30 +89,23 @@ export default class SUser {
             x: this.x,
             y: this.y,
             vx: this.vx,
-            vy: this.vy
+            vy: this.vy,
+            food: this.food,
+            nextLevel: SUser.levels[this.level]
         };
     }
 
     /**
-     * Move
-     * @param key The key 
-     * @param pressed Is the key pressed (true) or released (false)
+     * Eat one food
      */
-    public onMove(key: number, pressed: boolean) {
-        if (keyboard.isLeft(key)) {
-            this.moveLeft = pressed;
-        }
-        if (keyboard.isRight(key)) {
-            this.moveRight = pressed;
-        }
-        if (keyboard.isUp(key)) {
-            this.moveUp = pressed;
-        }
-        if (keyboard.isDown(key)) {
-            this.moveDown = pressed;
-        }
+    public eatFood() {
+        this.food++;
 
-        this.game.pushState();
+        if (this.food >= SUser.levels[this.level]) {
+            this.level++;
+            this.food = 0;
+            console.log("NEW LEVEL");
+        }
     }
 
     /**

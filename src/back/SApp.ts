@@ -107,14 +107,14 @@ export default class SApp {
      * @param uid The user's id
      * @param key The key code
      */
-    public onKeyDown(gid: string, uid: string, key: any) {
+    /*public onKeyDown(gid: string, uid: string, key: any) {
         for (let i = 0; i < this.arGames.length; i++) {
             if (this.arGames[i].uuid === gid) {
                 this.arGames[i].onKeyDown(uid, key);
                 return;
             }
         }
-    }
+    }*/
 
     /**
      * A key is released
@@ -122,14 +122,14 @@ export default class SApp {
      * @param uid The user's id
      * @param key The key code
      */
-    public onKeyUp(gid: string, uid: string, key: any) {
+    /*public onKeyUp(gid: string, uid: string, key: any) {
         for (let i = 0; i < this.arGames.length; i++) {
             if (this.arGames[i].uuid === gid) {
                 this.arGames[i].onKeyUp(uid, key);
                 return;
             }
         }
-    }
+    }*/
 
     /**
      * A user move his mouse

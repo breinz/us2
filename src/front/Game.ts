@@ -9,6 +9,7 @@ import Users from "./users";
 import IDisplayable from "./IDisplayable";
 import { game } from "./main";
 import Foods from "./Foods";
+import Level from "./Level";
 
 export default class Game {
 
@@ -53,6 +54,11 @@ export default class Game {
      * List of food
      */
     public foods: Foods;
+
+    /**
+     * The level bar
+     */
+    private level: Level;
 
     /**
      * Flag, has the data been initialized
@@ -143,9 +149,17 @@ export default class Game {
             this.foods = new Foods();
             this.container.addChild(this.foods);
 
+            // Level
+            this.level = new Level();
+            this.app.stage.addChild(this.level);
+
             setInterval(this.tick, client_tick_interval);
 
             this.controls = new Controls();
+
+            // Listen to window resize
+            window.addEventListener("resize", () => this.onResizeWindow());
+            this.onResizeWindow();
 
             console.log(state);
         }
@@ -154,6 +168,9 @@ export default class Game {
 
         // Update the uses
         this.users.update(state);
+
+        // Update the level
+        this.level.update(state);
 
         // Update the foods
         this.foods.update(state);
@@ -213,9 +230,6 @@ export default class Game {
      */
     private draw(data: State) {
 
-        // Listen to window resize
-        window.addEventListener("resize", () => this.onResizeWindow())
-
         this.drawBackground()
     }
 
@@ -234,5 +248,7 @@ export default class Game {
 
         // Dispatch the event
         dispatcher.dispatch(EVENT["RESIZE"], window.innerWidth, window.innerHeight);
+
+        this.level.onResizeWindow();
     }
 }

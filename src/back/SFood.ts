@@ -2,6 +2,7 @@ import SGame from "./SGame";
 import { round } from "../helper";
 import { FoodState } from "../types";
 import * as uniqid from "uniqid"
+import SUser from "./SUser";
 
 export default class SFood {
 
@@ -52,11 +53,13 @@ export default class SFood {
     }
 
     public tick() {
+        let user: SUser;
         for (let i = 0; i < this.game.arUsers.length; i++) {
-            if (Math.abs(this.game.arUsers[i].x - this.x) < 10 && Math.abs(this.game.arUsers[i].y - this.y) < 10) {
+            user = this.game.arUsers[i];
+            if (Math.abs(user.x - this.x) < 10 && Math.abs(user.y - this.y) < 10) {
                 this.position();
 
-                /** @todo Give the user some points */
+                user.eatFood();
             }
 
         }

@@ -10,7 +10,9 @@ export type UserState = {
     x: number,
     y: number,
     vx: number,
-    vy: number
+    vy: number,
+    food: number,
+    nextLevel: number
 };
 
 export type FoodState = {
