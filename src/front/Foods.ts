@@ -63,6 +63,13 @@ export default class Foods extends PIXI.Container {
 
     }
 
+    public tick() {
+        for (let i = 0; i < this.arFood.length; i++) {
+            this.arFood[i].tick();
+
+        }
+    }
+
     /**
      * Should we remove this item
      * @param foodState Food state

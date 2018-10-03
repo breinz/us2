@@ -8,6 +8,10 @@ export default class Food extends PIXI.Graphics {
 
     public id: string;
 
+    private state: FoodState;
+
+    private state_changed: boolean;
+
     private colors: number[] = [
         0xFF0000, 0x00FF00, 0x0000FF,
         0xFFFF00, 0xFF00FF, 0x00FFFF
@@ -32,10 +36,25 @@ export default class Food extends PIXI.Graphics {
         this.y = state.y;
     }
 
+    /**
+     * Update
+     * @param state The food state
+     */
     public update(state: FoodState) {
-        //const foodState = state.food.food[index];
+        this.state = state;
 
-        this.x = Layout.posX(state.x);
-        this.y = Layout.posY(state.y);
+        this.state_changed = true;
+    }
+
+    /**
+     * Tick
+     */
+    public tick() {
+        if (this.state_changed) {
+            this.x = Layout.posX(this.state.x);
+            this.y = Layout.posY(this.state.y);
+
+            this.state_changed = false;
+        }
     }
 }

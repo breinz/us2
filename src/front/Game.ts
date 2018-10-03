@@ -135,7 +135,7 @@ export default class Game {
             // Background
             const bg = new PIXI.Graphics();
             bg.beginFill(0xEEEEEE);
-            bg.lineStyle(1, 0);
+            //bg.lineStyle(1, 0);
             bg.drawRect(0, 0, state.game.width, state.game.height);
             this.container.addChild(bg);
 
@@ -164,6 +164,8 @@ export default class Game {
     private tick = () => {
 
         this.users.tick();
+
+        this.foods.tick();
 
         this.container.x = -this.users.me.x + window.innerWidth / 2;
         this.container.y = -this.users.me.y + window.innerHeight / 2;

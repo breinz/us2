@@ -29,7 +29,7 @@ export default class Sfoods {
 
         // Initialize the game with so many food
         let food: SFood;
-        let howMany = 1;//game.width / 20
+        let howMany = game.width / 20;
         for (let i = 0; i < howMany; i++) {
             this.arFood.push(new SFood(game));
         }

@@ -63,7 +63,7 @@ export default class Layout {
             return x;
         }
 
-        if (x < window.innerWidth) { // Does not have to be more precise
+        if (x < window.innerWidth / 2) { // Does not have to be more precise
             return x + game.state.game.width;
         }
 
@@ -79,7 +79,7 @@ export default class Layout {
             return y;
         }
 
-        if (y < window.innerHeight) { // Does not have to be more precise
+        if (y < window.innerHeight / 2) { // Does not have to be more precise
             return y + game.state.game.height;
         }
 

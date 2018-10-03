@@ -25,9 +25,9 @@ export const EVENT = {
 /**
  * Tick interval shared between server and client
  */
-export const server_tick_interval = 1000 / 6;
+export const server_tick_interval = 1000 / 60;
 
-export const client_tick_interval = 1000 / 6;
+export const client_tick_interval = 1000 / 60;
 
 /** 
  * Const to convert degrees in radians
