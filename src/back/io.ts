@@ -49,7 +49,11 @@ class Io {
             // MouseMove
             socket.on(SOCKET.MOUSE_MOVE, (uid: string, angle: number) => {
                 gameServer.onMouseMove(gameId, uid, angle);
-            })
+            });
+
+            socket.on(SOCKET.MOUSE_CLICK, (uid: string, angle: number) => {
+                gameServer.onMouseClick(gameId, uid, angle);
+            });
         });
 
         // Push the state to the clients

@@ -39,6 +39,7 @@ export default class Food extends PIXI.Graphics {
     /**
      * Update
      * @param state The food state
+     * @todo Don't update if nothing changed (not as simple as comparing x and y)
      */
     public update(state: FoodState) {
         this.state = state;

@@ -145,4 +145,18 @@ export default class SApp {
         }
     }
 
+    /**
+     * A user clicks
+     * @param gid Game id
+     * @param uid User id
+     * @param angle Angle between the mouse and the user
+     */
+    public onMouseClick(gid: string, uid: string, angle: number) {
+        for (let i = 0; i < this.arGames.length; i++) {
+            if (this.arGames[i].uuid === gid) {
+                this.arGames[i].onMouseClick(uid, angle);
+            }
+        }
+    }
+
 }

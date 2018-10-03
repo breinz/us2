@@ -204,6 +204,21 @@ export default class SGame {
         for (let i = 0; i < this.arUsers.length; i++) {
             if (this.arUsers[i].uuid === uid) {
                 this.arUsers[i].onMouseMove(angle);
+                break;
+            }
+        }
+    }
+
+    /**
+     * A user clicks
+     * @param uid User id
+     * @param angle Angle between the mouse and the user
+     */
+    public onMouseClick(uid: string, angle: number) {
+        for (let i = 0; i < this.arUsers.length; i++) {
+            if (this.arUsers[i].uuid === uid) {
+                this.arUsers[i].onMouseClick(angle);
+                break;
             }
         }
     }

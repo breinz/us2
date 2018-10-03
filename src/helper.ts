@@ -7,7 +7,8 @@ export const SOCKET = {
     KEY_UP: "socket_keyUp",
     GET_STATE: "socket_getState",
     STATE_UPDATE: "socket_stateUpdate",
-    MOUSE_MOVE: "socket_mouseMove"
+    MOUSE_MOVE: "socket_mouseMove",
+    MOUSE_CLICK: "socket_mouseClick"
 }
 
 /**

@@ -155,8 +155,15 @@ export default class SUser {
     public onMouseMove(angle: number) {
         this.vx = round(Math.cos(angle) * this.speed, 2);
         this.vy = round(Math.sin(angle) * this.speed, 2);
+    }
 
-        //console.log(angle * R2D);
-        //console.log("mousemove", event.offsetX);
+    /**
+    * Mouse click
+    * @param angle Angle between the mouse and the user
+    */
+    public onMouseClick(angle: number) {
+        console.log("click", angle * R2D);
+        //this.vx = round(Math.cos(angle) * this.speed, 2);
+        //this.vy = round(Math.sin(angle) * this.speed, 2);
     }
 }
