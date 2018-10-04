@@ -12,6 +12,7 @@ export type UserState = {
     vx: number,
     vy: number,
     food: number,
+    level: number,
     nextLevel: number
 };
 

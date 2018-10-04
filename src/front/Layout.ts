@@ -47,11 +47,11 @@ export default class Layout {
     }
 
     public static reachableX(x: number): boolean {
-        return Math.abs(x - game.users.me.x) <= window.innerWidth / 2 + 50;
+        return Math.abs(x - game.users.me.x) <= window.innerWidth / 2 + 150;
     }
 
     public static reachableY(y: number): boolean {
-        return Math.abs(y - game.users.me.y) <= window.innerHeight / 2 + 50;
+        return Math.abs(y - game.users.me.y) <= window.innerHeight / 2 + 150;
     }
 
     /**

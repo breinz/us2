@@ -52,6 +52,9 @@ export default class SFood {
         }
     }
 
+    /**
+     * Tick
+     */
     public tick() {
         let user: SUser;
         for (let i = 0; i < this.game.arUsers.length; i++) {

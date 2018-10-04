@@ -91,6 +91,7 @@ export default class SUser {
             vx: this.vx,
             vy: this.vy,
             food: this.food,
+            level: this.level,
             nextLevel: SUser.levels[this.level]
         };
     }
@@ -101,7 +102,7 @@ export default class SUser {
     public eatFood() {
         this.food++;
 
-        if (this.food >= SUser.levels[this.level]) {
+        if (this.food > SUser.levels[this.level]) {
             this.level++;
             this.food = 0;
             console.log("NEW LEVEL");

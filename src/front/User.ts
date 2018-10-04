@@ -3,6 +3,7 @@ import { game } from "./main";
 import dispatcher from "../dispatcher";
 import { EVENT } from "../helper";
 import IDisplayable from "./IDisplayable";
+import Layout from "./Layout";
 
 export default class User extends PIXI.Container implements IDisplayable {
 
@@ -105,14 +106,13 @@ export default class User extends PIXI.Container implements IDisplayable {
             game.container.addChild(this);
         }
 
-        /*if (this === game.users.me) {
-            this.x = window.innerWidth / 2;
-            this.y = window.innerHeight / 2;
+        if (this === game.users.me) {
+            this.x = this.state.x;// pos.x;
+            this.y = this.state.y;// pos.y;
         } else {
-            const pos = game.posFromMe(this);*/
-        //console.log(this.state.x);
-        this.x = this.state.x;// pos.x;
-        this.y = this.state.y;// pos.y;
+            this.x = Layout.posX(this.state.x);
+            this.y = Layout.posY(this.state.y);
+        }
         //}
         //this.x = this.state.x;
         //this.y = this.state.y;

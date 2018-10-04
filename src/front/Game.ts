@@ -141,9 +141,9 @@ export default class Game {
             // Background
             const bg = new PIXI.Graphics();
             bg.beginFill(0xEEEEEE);
-            //bg.lineStyle(1, 0);
+            bg.lineStyle(1, 0);
             bg.drawRect(0, 0, state.game.width, state.game.height);
-            this.container.addChild(bg);
+            //this.container.addChild(bg);
 
             // Foods
             this.foods = new Foods();
@@ -153,7 +153,8 @@ export default class Game {
             this.level = new Level();
             this.app.stage.addChild(this.level);
 
-            setInterval(this.tick, client_tick_interval);
+            this.app.ticker.add(() => this.tick());
+            //setInterval(this.tick, client_tick_interval);
 
             this.controls = new Controls();
 

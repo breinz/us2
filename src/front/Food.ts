@@ -13,8 +13,7 @@ export default class Food extends PIXI.Graphics {
     private state_changed: boolean;
 
     private colors: number[] = [
-        0xFF0000, 0x00FF00, 0x0000FF,
-        0xFFFF00, 0xFF00FF, 0x00FFFF
+        0x58C8DE, 0x13DE12, 0xEE3C78, 0x4C5EC2, 0xB157DD, 0xDE56B8, 0xEE4A48, 0x669A8E, 0xFFFF00, 0xFF9104
     ]
 
     constructor(state: FoodState) {
