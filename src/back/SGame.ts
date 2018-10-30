@@ -7,6 +7,7 @@ import io from "./io";
 import dispatcher from "../dispatcher";
 import SFood from "./SFood";
 import Sfoods from "./Sfoods";
+import SBulletList from "./SBulletList";
 
 export default class SGame {
 
@@ -25,6 +26,11 @@ export default class SGame {
      */
     private foods: Sfoods;
 
+    /**
+     * List of bullets
+     */
+    public bullets: SBulletList;
+
     /** 
      * Width of the game 
      */
@@ -40,6 +46,11 @@ export default class SGame {
      */
     private _pushState: boolean = false;
 
+    /**
+     * Flag : Did a user's score change
+     */
+    private _scoreChanged: boolean;
+
     constructor() {
         this.uuid = uniqid();
 
@@ -51,6 +62,9 @@ export default class SGame {
         io.createGameServer(this.uuid);
 
         this.foods = new Sfoods(this);
+
+        // Create the bullet list
+        this.bullets = new SBulletList();
     }
 
     /**
@@ -113,14 +127,23 @@ export default class SGame {
         }
     }*/
 
+    public scoreChanged() {
+        this._scoreChanged = true;
+    }
+
     public getState(): State {
-        return {
+        const state = {
             game: this.state,
             //user: user.state,
             users: this.usersState(),
 
-            food: this.foods.getState()
+            food: this.foods.getState(),
+            bullets: this.bullets.getState()
         }
+
+        this._scoreChanged = false;
+
+        return state;
     }
 
     /**
@@ -130,7 +153,8 @@ export default class SGame {
         return {
             uuid: this.uuid,
             width: this.width,
-            height: this.height
+            height: this.height,
+            scoreChanged: this._scoreChanged
         }
     }
 

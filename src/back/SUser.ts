@@ -2,6 +2,8 @@ import * as uniqid from "uniqid";
 import { UserState } from "../types";
 import SGame from "./SGame";
 import { round, R2D } from "../helper";
+import SIWeapon from "./weapon/SIWeapon";
+import SBaseWeapon from "./weapon/SBaseWeapon";
 
 export default class SUser {
 
@@ -36,9 +38,19 @@ export default class SUser {
      */
     private food: number;
 
+    /**
+     * The score
+     */
+    private score: number = 0;
+
     private vx: number;
 
     private vy: number;
+
+    /** 
+     * List of weapons 
+     */
+    public weaponList: SIWeapon[];
 
     constructor(name: string, game: SGame) {
         this.game = game;
@@ -55,6 +67,9 @@ export default class SUser {
 
         this.level = 0;
         this.food = 0;
+
+        // Initialize with the base weapon
+        this.weaponList = [new SBaseWeapon(game)];
     }
 
     /**
@@ -92,7 +107,8 @@ export default class SUser {
             vy: this.vy,
             food: this.food,
             level: this.level,
-            nextLevel: SUser.levels[this.level]
+            nextLevel: SUser.levels[this.level],
+            score: this.score
         };
     }
 
@@ -101,6 +117,10 @@ export default class SUser {
      */
     public eatFood() {
         this.food++;
+
+        this.score += round(Math.random() * 3 + 6);
+
+        this.game.scoreChanged();
 
         if (this.food > SUser.levels[this.level]) {
             this.level++;
@@ -123,8 +143,16 @@ export default class SUser {
     * @param angle Angle between the mouse and the user
     */
     public onMouseClick(angle: number) {
-        console.log("click", angle * R2D);
-        //this.vx = round(Math.cos(angle) * this.speed, 2);
-        //this.vy = round(Math.sin(angle) * this.speed, 2);
+        this.fire(angle);
+    }
+
+    /**
+     * Fire
+     * @param angle Angle between the user and the target
+     */
+    private fire(angle: number) {
+        for (let i = 0; i < this.weaponList.length; i++) {
+            this.weaponList[i].fire(this, angle);
+        }
     }
 }

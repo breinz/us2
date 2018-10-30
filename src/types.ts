@@ -1,7 +1,8 @@
 export type GameState = {
     uuid: string,
     width: number,
-    height: number
+    height: number,
+    scoreChanged: boolean
 }
 
 export type UserState = {
@@ -13,7 +14,8 @@ export type UserState = {
     vy: number,
     food: number,
     level: number,
-    nextLevel: number
+    nextLevel: number,
+    score: number
 };
 
 export type FoodState = {
@@ -27,9 +29,18 @@ export type FoodsState = {
     food: FoodState[]
 }
 
+/**
+ * One bullet state
+ */
+export type BulletState = {
+    x: number,
+    y: number
+}
+
 export type State = {
     game: GameState,
     //user: UserState,
     users: UserState[],
-    food: FoodsState
+    food: FoodsState,
+    bullets: BulletState[]
 };

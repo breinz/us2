@@ -10,6 +10,8 @@ import IDisplayable from "./IDisplayable";
 import { game } from "./main";
 import Foods from "./Foods";
 import Level from "./Level";
+import Ranking from "./Ranking";
+//import svg from 'pixi-svg'
 
 export default class Game {
 
@@ -61,6 +63,11 @@ export default class Game {
     private level: Level;
 
     /**
+     * Ranking
+     */
+    private ranking: Ranking;
+
+    /**
      * Flag, has the data been initialized
      */
     private initialized: boolean;
@@ -107,7 +114,9 @@ export default class Game {
             height: window.innerHeight,
             //transparent: true,
             antialias: true,
-            backgroundColor: 0xEEEEEE
+            backgroundColor: 0xEEEEEE,
+            autoResize: true,
+            resolution: window.devicePixelRatio || 1
         });
 
         this.renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight)
@@ -153,6 +162,10 @@ export default class Game {
             this.level = new Level();
             this.app.stage.addChild(this.level);
 
+            // Ranking
+            this.ranking = new Ranking();
+            this.app.stage.addChild(this.ranking);
+
             this.app.ticker.add(() => this.tick());
             //setInterval(this.tick, client_tick_interval);
 
@@ -162,7 +175,11 @@ export default class Game {
             window.addEventListener("resize", () => this.onResizeWindow());
             this.onResizeWindow();
 
-            console.log(state);
+            /*console.log(state);
+
+            var Bullet = require('../public/svg/bullet.svg') as any;
+            var bullet = new svg(Bullet);
+            this.app.stage.addChild(bullet);*/
         }
 
         this.initialized = true;
@@ -172,6 +189,9 @@ export default class Game {
 
         // Update the level
         this.level.update(state);
+
+        // Update ranking
+        this.ranking.update(state);
 
         // Update the foods
         this.foods.update(state);
@@ -184,6 +204,8 @@ export default class Game {
         this.users.tick();
 
         this.foods.tick();
+
+        this.ranking.tick();
 
         this.container.x = -this.users.me.x + window.innerWidth / 2;
         this.container.y = -this.users.me.y + window.innerHeight / 2;

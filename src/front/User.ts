@@ -27,8 +27,6 @@ export default class User extends PIXI.Container implements IDisplayable {
      */
     private updated: boolean;
 
-    private justUpdated: boolean;
-
     constructor(state: UserState) {
         super();
 
@@ -38,21 +36,7 @@ export default class User extends PIXI.Container implements IDisplayable {
     public tick() {
         let redraw: boolean = false;
 
-        /*if (!this.justUpdated) {
-            if (this.state.vx !== 0) {
-                this.state.x += this.state.vx;
-                redraw = true;
-            }
-            if (this.state.vy !== 0) {
-                this.state.y += this.state.vy;
-                redraw = true;
-            }
-        }
-        this.justUpdated = false;*/
-
-        //if (redraw) {
         this.draw();
-        //}
     }
 
     /**
@@ -90,7 +74,6 @@ export default class User extends PIXI.Container implements IDisplayable {
         this.state = state;
 
         this.updated = true;
-        this.justUpdated = true;
     }
 
     /**
@@ -102,6 +85,15 @@ export default class User extends PIXI.Container implements IDisplayable {
             s.beginFill(game.users.me === this ? 0x0066FF : 0xFF6600);
             s.drawCircle(0, 0, 10);
             this.addChild(s);
+
+            let name = new PIXI.Text(this.state.name, {
+                fontFamily: "Verdana",
+                fontSize: 13,
+                fill: 0
+            });
+            this.addChild(name);
+            name.x = -name.width / 2;
+            name.y = -30;
 
             game.container.addChild(this);
         }
