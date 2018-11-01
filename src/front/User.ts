@@ -86,7 +86,7 @@ export default class User extends PIXI.Container implements IDisplayable {
             s.drawCircle(0, 0, 10);
             this.addChild(s);
 
-            let name = new PIXI.Text(this.state.name, {
+            let name = new PIXI.Text(this.state.n, {
                 fontFamily: "Verdana",
                 fontSize: 13,
                 fill: 0

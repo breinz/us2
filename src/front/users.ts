@@ -44,9 +44,9 @@ export default class Users {
         this.onBeforeUpdate();
 
         let s: UserState, u: User;
-        nextState: for (let i = 0; i < state.users.length; i++) {
+        nextState: for (let i = 0; i < state.u.length; i++) {
 
-            s = state.users[i];
+            s = state.u[i];
 
             // Check if that user exists
             for (let j = 0; j < this.arUsers.length; j++) {

@@ -6,16 +6,21 @@ export type GameState = {
 }
 
 export type UserState = {
-    name: string,
+    /** name */
+    n: string,
     uuid: string,
     x: number,
     y: number,
     vx: number,
     vy: number,
-    food: number,
-    level: number,
-    nextLevel: number,
-    score: number
+    /** Food */
+    f: number,
+    /** Level */
+    l: number,
+    /** Next level */
+    nl: number,
+    /** Score */
+    s: number
 };
 
 export type FoodState = {
@@ -26,7 +31,7 @@ export type FoodState = {
 
 export type FoodsState = {
     id: string,
-    food: FoodState[]
+    f: FoodState[]
 }
 
 /**
@@ -38,9 +43,12 @@ export type BulletState = {
 }
 
 export type State = {
-    game: GameState,
-    //user: UserState,
-    users: UserState[],
-    food: FoodsState,
-    bullets: BulletState[]
+    /** Game */
+    g: GameState,
+    /** user */
+    u: UserState[],
+    /** Foods */
+    f: FoodsState,
+    /** Bullets */
+    b: BulletState[]
 };

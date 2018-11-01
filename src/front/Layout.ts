@@ -9,7 +9,7 @@ export default class Layout {
      */
     public static isVisible(x: number, y: number): boolean {
         //const me = game.users.me;
-        const gameState = game.state.game;
+        const gameState = game.state.g;
 
         //const reachX = Math.abs(x - me.x) < window.innerWidth / 2;
         //const reachY = Math.abs(y - me.y) < window.innerHeight / 2;
@@ -64,10 +64,10 @@ export default class Layout {
         }
 
         if (x < window.innerWidth / 2) { // Does not have to be more precise
-            return x + game.state.game.width;
+            return x + game.state.g.width;
         }
 
-        return x - game.state.game.width;
+        return x - game.state.g.width;
     }
 
     /**
@@ -80,10 +80,10 @@ export default class Layout {
         }
 
         if (y < window.innerHeight / 2) { // Does not have to be more precise
-            return y + game.state.game.height;
+            return y + game.state.g.height;
         }
 
-        return y - game.state.game.height;
+        return y - game.state.g.height;
     }
 
 }

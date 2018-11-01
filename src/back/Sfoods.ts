@@ -55,7 +55,7 @@ export default class Sfoods {
         }
         return {
             id: this.id,
-            food: state
+            f: state
         }
     }
 }

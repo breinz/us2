@@ -63,16 +63,16 @@ export default class Level extends PIXI.Container {
      */
     public update(state: State) {
         let userState: UserState;
-        for (let i = 0; i < state.users.length; i++) {
-            userState = state.users[i];
+        for (let i = 0; i < state.u.length; i++) {
+            userState = state.u[i];
             if (userState.uuid == game.users.me.id) {
                 this.bar.clear();
                 this.bar.beginFill(0xFF0000)
-                this.bar.drawRect(0, 0, userState.food * 200 / userState.nextLevel, 15);
+                this.bar.drawRect(0, 0, userState.f * 200 / userState.nl, 15);
 
-                if (userState.level !== this.level) {
+                if (userState.l !== this.level) {
 
-                    this.txt.text = (userState.level + 1).toString();
+                    this.txt.text = (userState.l + 1).toString();
                     this.txt.x = -this.txt.width - 5;
 
                     this.txt_bg.clear();
@@ -81,7 +81,7 @@ export default class Level extends PIXI.Container {
                     this.txt_bg.drawRect(0, 0, this.txt.width + 10, 15);
                     this.txt_bg.x = -this.txt_bg.width;
 
-                    this.level = userState.level;
+                    this.level = userState.l;
                 }
                 break;
             }

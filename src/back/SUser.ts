@@ -99,16 +99,16 @@ export default class SUser {
      */
     public get state(): UserState {
         return {
-            name: this.name,
+            n: this.name,
             uuid: this.uuid,
             x: this.x,
             y: this.y,
             vx: this.vx,
             vy: this.vy,
-            food: this.food,
-            level: this.level,
-            nextLevel: SUser.levels[this.level],
-            score: this.score
+            f: this.food,
+            l: this.level,
+            nl: SUser.levels[this.level],
+            s: this.score
         };
     }
 

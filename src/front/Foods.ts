@@ -30,15 +30,15 @@ export default class Foods extends PIXI.Container {
         let foodState: FoodState;
 
         // Go through every server food
-        nextState: for (let i = 0; i < state.food.food.length; i++) {
-            foodState = state.food.food[i];
+        nextState: for (let i = 0; i < state.f.f.length; i++) {
+            foodState = state.f.f[i];
 
             // Go through every front food
             for (let a = this.arFood.length - 1; a >= 0; a--) {
                 food = this.arFood[a];
 
                 // Food is already on stage
-                if (food.id == state.food.food[i].id) {
+                if (food.id == state.f.f[i].id) {
 
                     if (!Layout.isVisible(foodState.x, foodState.y)) {
                         //if (this.removeTest(foodState, state.game)) {
@@ -55,7 +55,7 @@ export default class Foods extends PIXI.Container {
             // Food is not on stage, create it
             //if (this.createTest(state, i)) {
             if (Layout.isVisible(foodState.x, foodState.y)) {
-                food = new Food(state.food.food[i]);
+                food = new Food(state.f.f[i]);
                 this.addChild(food);
                 this.arFood.push(food);
             }
@@ -97,18 +97,18 @@ export default class Foods extends PIXI.Container {
     }
 
     private createTest(state: State, index: number): boolean {
-        const foodState = state.food.food[index];
+        const foodState = state.f.f[index];
         const me = game.users.me;
 
         // x < 0
         if (me.x < window.innerWidth / 2) {
-            if (foodState.x > state.game.width - game.container.x) {// state.game.width - (window.innerWidth / 2 - me.x)) {
+            if (foodState.x > state.g.width - game.container.x) {// state.game.width - (window.innerWidth / 2 - me.x)) {
                 return true;
             }
         }
         // x > width
-        if (me.x > state.game.width - window.innerWidth / 2) {
-            if (foodState.x < window.innerWidth - (state.game.width + game.container.x)) {
+        if (me.x > state.g.width - window.innerWidth / 2) {
+            if (foodState.x < window.innerWidth - (state.g.width + game.container.x)) {
                 return true;
             }
         }

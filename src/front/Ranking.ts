@@ -46,7 +46,7 @@ export default class Ranking extends PIXI.Container {
      * Update state
      */
     public update(state: State) {
-        if (!this.state || state.game.scoreChanged) {
+        if (!this.state || state.g.scoreChanged) {
             this.state = state;
 
             this._stateChanged = true;
@@ -66,8 +66,8 @@ export default class Ranking extends PIXI.Container {
                     this.arScore[i].text = "";
                 } else {
 
-                    this.arNames[i].text = (i + 1) + " " + ar[i].name;
-                    this.arScore[i].text = ar[i].score.toString();
+                    this.arNames[i].text = (i + 1) + " " + ar[i].n;
+                    this.arScore[i].text = ar[i].s.toString();
                 }
             }
             console.log("Update ranking");
@@ -81,9 +81,9 @@ export default class Ranking extends PIXI.Container {
      * Sort the users by the amount of food
      */
     private sortUsers(): UserState[] {
-        return this.state.users.sort((a, b) => {
-            if (a.score === b.score) return 0;
-            return a.score < b.score ? 1 : -1;
+        return this.state.u.sort((a, b) => {
+            if (a.s === b.s) return 0;
+            return a.s < b.s ? 1 : -1;
         });
     }
 }

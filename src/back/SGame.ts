@@ -133,12 +133,10 @@ export default class SGame {
 
     public getState(): State {
         const state = {
-            game: this.state,
-            //user: user.state,
-            users: this.usersState(),
-
-            food: this.foods.getState(),
-            bullets: this.bullets.getState()
+            g: this.state,
+            u: this.usersState(),
+            f: this.foods.getState(),
+            b: this.bullets.getState()
         }
 
         this._scoreChanged = false;

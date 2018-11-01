@@ -151,7 +151,7 @@ export default class Game {
             const bg = new PIXI.Graphics();
             bg.beginFill(0xEEEEEE);
             bg.lineStyle(1, 0);
-            bg.drawRect(0, 0, state.game.width, state.game.height);
+            bg.drawRect(0, 0, state.g.width, state.g.height);
             //this.container.addChild(bg);
 
             // Foods

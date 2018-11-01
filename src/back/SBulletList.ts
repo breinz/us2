@@ -9,6 +9,10 @@ export default class SBulletList {
      */
     private list: SIBullet[];
 
+    constructor() {
+        this.list = [];
+    }
+
     /**
      * Adds a bullet
      * @param bullet The bullet to add
